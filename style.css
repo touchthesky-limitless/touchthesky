@@ -1,0 +1,11 @@
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+
+/* Bank pills scrolling container */
+.filter-scroll::-webkit-scrollbar { height: 3px; }
+.filter-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+.dark .filter-scroll::-webkit-scrollbar-thumb { background: #334155; }
+
+.bank-inactive { filter: grayscale(1); opacity: 0.4; }
+
+/* Transitions */
+.transition-all { transition: all 0.3s ease; }
