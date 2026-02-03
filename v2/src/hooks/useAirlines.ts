@@ -30,8 +30,8 @@ export function useAirlines() {
   useEffect(() => {
     // Fetch both JSON files from the public/data folder
     Promise.all([
-      fetch('/data/data.json').then(res => res.json()),
-      fetch('/data/banks.json').then(res => res.json())
+      fetch('./data/data.json').then(res => res.json()),
+      fetch('./data/banks.json').then(res => res.json())
     ])
     .then(([airlineData, bankData]) => {
       setData(airlineData);
