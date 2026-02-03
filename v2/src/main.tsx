@@ -6,10 +6,10 @@ import App from './App.tsx'
 // Register Service Worker for PWA installation
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/sw.js')
-      .then((reg) => console.log('SW registered:', reg))
-      .catch((err) => console.error('SW registration failed:', err));
+    // We explicitly define the scope to match your subfolder
+    navigator.serviceWorker.register('./sw.js', { scope: './' })
+      .then(reg => console.log('SW registered for scope:', reg.scope))
+      .catch(err => console.error('SW registration failed:', err));
   });
 }
 
