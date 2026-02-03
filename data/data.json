@@ -185,7 +185,7 @@
     "domain": "hainanairlines.com/AT/US/Home",
     "alliance": "Independent",
     "bookable": "",
-    "featured": false,
+    "featured": true,
     "partners": [
       { "bank": "rove", "ratio": "1:1", "time": "Instant" },
       { "bank": "marriottbonvoy", "ratio": "3:1", "time": "Instant" }
@@ -516,6 +516,17 @@
     "alliance": "SkyTeam",
     "bookable": "AF, DL, NH",
     "featured": false,
+    "partners": [
+      { "bank": "marriottbonvoy", "ratio": "3:1", "time": "Instant" }
+    ]
+  },
+  {
+    "name": "Korean Air (SkyPass)",
+    "iata": "KE",
+    "domain": "koreanair.com",
+    "alliance": "SkyTeam",
+    "bookable": "AS, HA, EK, EY",
+    "featured": true,
     "partners": [
       { "bank": "marriottbonvoy", "ratio": "3:1", "time": "Instant" }
     ]

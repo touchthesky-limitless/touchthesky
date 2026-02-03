@@ -12,10 +12,11 @@ const DEFAULT_ALLIANCES = [];
 const ALLIANCE_LOGOS = {
     'Star Alliance': 'https://www.staralliance.com/o/staralliance-2025-theme/images/logo/favicon_2025.png',
     'SkyTeam': 'https://www.skyteam.com/favicon.ico',
-    'Oneworld': 'https://www.oneworld.com/favicon.ico'
+    'Oneworld': 'https://www.oneworld.com/favicon.ico',
+    'Hotels': null // Setting this to null triggers the emoji fallback
 };
 
-const ALLIANCE_NAMES = ['Oneworld', 'SkyTeam', 'Star Alliance', 'Other'];
+const ALLIANCE_NAMES = ['Oneworld', 'SkyTeam', 'Star Alliance', 'Hotels', 'Other'];
 
 // ==========================================
 // SEARCH & SORT LOGIC
@@ -34,7 +35,7 @@ const searchAirlines = (data, search, activeBanks, activeAlliances) => {
         if (!matchesSearch) return false;
 
         // Alliance Filter
-        const isMajor = ['Star Alliance', 'SkyTeam', 'Oneworld'].includes(airline.alliance);
+        const isMajor = ['Star Alliance', 'SkyTeam', 'Oneworld', 'Hotels'].includes(airline.alliance);
         const category = isMajor ? airline.alliance : 'Other';
         const matchesAlliance = activeAlliances.length === 0 || activeAlliances.includes(category);
 
@@ -201,6 +202,20 @@ function App() {
         });
     }, []);
 
+    // PWA
+    useEffect(() => {
+        const handler = (e) => {
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            setInstallPrompt(e);
+        };
+        window.addEventListener('beforeinstallprompt', handler);
+
+        return () => window.removeEventListener('beforeinstallprompt', handler);
+    }, []);
+
+    // Handle Install PWA
     const handleInstallClick = async () => {
         if (!installPrompt) return;
         installPrompt.prompt();
@@ -278,14 +293,30 @@ function App() {
                 <header className="sticky top-0 z-10 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 p-4">
                     <div className="max-w-4xl mx-auto flex flex-col gap-4">
                         <div className="flex justify-between items-center">
-                            <a href="#" onClick={goHome} className="flex items-center gap-2 active:scale-95 transition-transform">
-                                <div className="bg-blue-600 text-white w-8 h-8 rounded-lg flex items-center justify-center font-black shadow-lg shadow-blue-500/30">
-                                    T
-                                </div>
-                                <h1 className="text-2xl font-black italic tracking-tighter">Touch The Sky</h1>
-                            </a>
-                            <button onClick={() => setIsDark(!isDark)} className="p-2 rounded-full bg-slate-100 dark:bg-slate-800">{isDark ? '☀️' : '🌙'}</button>
-                        </div>
+    <a href="#" onClick={goHome} className="flex items-center gap-2 active:scale-95 transition-transform">
+        <div className="bg-blue-600 text-white w-8 h-8 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/30">
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 512 512">
+                <path d="M406 322V292L286 217V107C286 90.43 272.57 77 256 77C239.43 77 226 90.43 226 107V217L106 292V322L226 284.5V367L196 389.5V412L256 397L316 412V389.5L286 367V284.5L406 322Z" />
+            </svg>
+        </div>
+        <h1 className="text-2xl font-black italic tracking-tighter uppercase">Touch The Sky</h1>
+    </a>
+
+    {/* ADD THE INSTALL BUTTON HERE */}
+    <div className="flex items-center gap-2">
+        {installPrompt && (
+            <button 
+                onClick={handleInstallClick}
+                className="bg-blue-600 text-white text-[10px] px-3 py-1.5 rounded-full font-bold animate-pulse shadow-lg shadow-blue-500/40 uppercase tracking-tighter"
+            >
+                Install App
+            </button>
+        )}
+        <button onClick={() => setIsDark(!isDark)} className="p-2 rounded-full bg-slate-100 dark:bg-slate-800">
+            {isDark ? '☀️' : '🌙'}
+        </button>
+    </div>
+</div>
                         <input 
                             ref={searchInputRef} 
                             type="text" 
@@ -365,9 +396,15 @@ function App() {
                                         return (
                                             <button key={name} onClick={() => setActiveAlliances(prev => isActive ? prev.filter(x => x !== name) : [...prev, name])}
                                                 className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-200 text-xs font-semibold whitespace-nowrap ${isActive ? 'bg-blue-50 border-blue-500 text-blue-700 dark:bg-blue-500/20 dark:border-blue-400 dark:text-blue-300 shadow-sm' : 'bg-white border-slate-200 text-slate-700 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300'}`}>
-                                                <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center overflow-hidden shrink-0 border border-slate-100 dark:border-transparent">
-                                                    {logo ? <img src={logo} className="w-3 h-3 object-contain" alt="" /> : <span className="text-[10px]">✨</span>}
-                                                </div>
+                                                    <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center overflow-hidden shrink-0 border border-slate-100 dark:border-transparent">
+                                                        {logo ? (
+                                                            <img src={logo} className="w-3 h-3 object-contain" alt="" />
+                                                        ) : (
+                                                            <span className="text-[10px]">
+                                                                {name === 'Hotels' ? '🏨' : '✨'}
+                                                            </span>
+                                                        )}
+                                                    </div>
                                                 {name}
                                             </button>
                                         );

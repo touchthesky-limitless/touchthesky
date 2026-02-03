@@ -3,18 +3,14 @@
   "name": "TouchTheSky: No Limit Transfer Engine",
   "icons": [
     {
-      "src": "https://ui-avatars.com/api/?name=T&background=2563eb&color=fff&size=192",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "https://ui-avatars.com/api/?name=T&background=2563eb&color=fff&size=512",
-      "type": "image/png",
-      "sizes": "512x512"
+      "src": "icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#020617",
-  "background_color": "#020617"
+  "theme_color": "#000000",
+  "background_color": "#000000"
 }
