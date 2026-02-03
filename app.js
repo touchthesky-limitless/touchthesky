@@ -164,6 +164,8 @@ function App() {
     const searchInputRef = useRef(null);
     const moreBanksRef = useRef(null);
     const [installPrompt, setInstallPrompt] = useState(null);
+    const [isIOS, setIsIOS] = useState(false);
+    const [isStandalone, setIsStandalone] = useState(false);
 
     const currentYear = new Date().getFullYear();
 
@@ -224,6 +226,15 @@ function App() {
             setInstallPrompt(null);
         }
     };
+
+    // Detect O
+    useEffect(() => {
+        const isIphone = /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+        
+        setIsIOS(isIphone);
+        setIsStandalone(isInStandaloneMode);
+    }, []);
 
     const filteredData = useMemo(() => 
         searchAirlines(data, search, activeBanks, activeAlliances), 
@@ -293,30 +304,30 @@ function App() {
                 <header className="sticky top-0 z-10 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 p-4">
                     <div className="max-w-4xl mx-auto flex flex-col gap-4">
                         <div className="flex justify-between items-center">
-    <a href="#" onClick={goHome} className="flex items-center gap-2 active:scale-95 transition-transform">
-        <div className="bg-blue-600 text-white w-8 h-8 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/30">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 512 512">
-                <path d="M406 322V292L286 217V107C286 90.43 272.57 77 256 77C239.43 77 226 90.43 226 107V217L106 292V322L226 284.5V367L196 389.5V412L256 397L316 412V389.5L286 367V284.5L406 322Z" />
-            </svg>
-        </div>
-        <h1 className="text-2xl font-black italic tracking-tighter uppercase">Touch The Sky</h1>
-    </a>
+                            <a href="#" onClick={goHome} className="flex items-center gap-2 active:scale-95 transition-transform">
+                                <div className="bg-blue-600 text-white w-8 h-8 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/30">
+                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 512 512">
+                                        <path d="M406 322V292L286 217V107C286 90.43 272.57 77 256 77C239.43 77 226 90.43 226 107V217L106 292V322L226 284.5V367L196 389.5V412L256 397L316 412V389.5L286 367V284.5L406 322Z" />
+                                    </svg>
+                                </div>
+                                <h1 className="text-2xl font-black italic tracking-tighter uppercase">Touch The Sky</h1>
+                            </a>
 
-    {/* ADD THE INSTALL BUTTON HERE */}
-    <div className="flex items-center gap-2">
-        {installPrompt && (
-            <button 
-                onClick={handleInstallClick}
-                className="bg-blue-600 text-white text-[10px] px-3 py-1.5 rounded-full font-bold animate-pulse shadow-lg shadow-blue-500/40 uppercase tracking-tighter"
-            >
-                Install App
-            </button>
-        )}
-        <button onClick={() => setIsDark(!isDark)} className="p-2 rounded-full bg-slate-100 dark:bg-slate-800">
-            {isDark ? '☀️' : '🌙'}
-        </button>
-    </div>
-</div>
+                            {/* ADD THE INSTALL BUTTON HERE */}
+                            <div className="flex items-center gap-2">
+                                {installPrompt && (
+                                    <button 
+                                        onClick={handleInstallClick}
+                                        className="bg-blue-600 text-white text-[10px] px-3 py-1.5 rounded-full font-bold animate-pulse shadow-lg shadow-blue-500/40 uppercase tracking-tighter"
+                                    >
+                                        Install App
+                                    </button>
+                                )}
+                                <button onClick={() => setIsDark(!isDark)} className="p-2 rounded-full bg-slate-100 dark:bg-slate-800">
+                                    {isDark ? '☀️' : '🌙'}
+                                </button>
+                            </div>
+                        </div>
                         <input 
                             ref={searchInputRef} 
                             type="text" 
@@ -414,6 +425,16 @@ function App() {
                         </div>
                     </div>
                 </header>
+
+                {/* iOS Tip Banner */}          
+                {isIOS && !isStandalone && (
+                    <div className="mx-4 mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl flex items-center gap-3">
+                        <div className="text-2xl">📲</div>
+                        <p className="text-[11px] text-blue-800 dark:text-blue-200 leading-tight">
+                            <span className="font-bold">Install on iPhone:</span> Tap the <span className="bg-white dark:bg-slate-800 px-1 rounded">share icon</span> below and select <span className="font-bold">"Add to Home Screen"</span> for the best experience.
+                        </p>
+                    </div>
+                )}
 
                 <main className="max-w-4xl mx-auto p-4 mt-4 space-y-4">
                     {/* 1. Use 'filteredData' here instead of 'data' */}
