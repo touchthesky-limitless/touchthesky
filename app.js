@@ -13,7 +13,7 @@ const ALLIANCE_LOGOS = {
     'Star Alliance': 'https://www.staralliance.com/o/staralliance-2025-theme/images/logo/favicon_2025.png',
     'SkyTeam': 'https://www.skyteam.com/favicon.ico',
     'Oneworld': 'https://www.oneworld.com/favicon.ico',
-    'Hotels': null // Setting this to null triggers the emoji fallback
+    'Hotels': null
 };
 
 const ALLIANCE_NAMES = ['SkyTeam', 'Star Alliance', 'Oneworld', 'Hotels', 'No Alliance'];
@@ -22,7 +22,7 @@ const VISIBLE_PILLS_COUNT = 2;
 // ==========================================
 // SEARCH & SORT LOGIC
 // ==========================================
-const searchAirlines = (data, search, activeBanks, activeAlliances) => {
+const searchAirlines = (data, search, activeBanks, activeAlliances, showOnlyBonuses) => {
     const searchTerm = search.toLowerCase().trim();
     
     // 1. Filter the list
@@ -37,14 +37,17 @@ const searchAirlines = (data, search, activeBanks, activeAlliances) => {
 
         // Alliance Filter
         const isMajor = ['Star Alliance', 'SkyTeam', 'Oneworld', 'Hotels'].includes(airline.alliance);
-        const category = isMajor ? airline.alliance : 'Other';
+        const category = isMajor ? airline.alliance : 'No Alliance';
         const matchesAlliance = activeAlliances.length === 0 || activeAlliances.includes(category);
 
         // Bank Filter
         const matchesBank = activeBanks.length === 0 || 
                            airline.partners.some(p => activeBanks.includes(p.bank));
+        
+        // Bonus Filter
+        const matchesBonus = !showOnlyBonuses || airline.partners.some(p => p.bonus);
 
-        return matchesAlliance && matchesBank;
+        return matchesAlliance && matchesBank && matchesBonus;
     });
 
     // 2. Sort the filtered results (Featured always first)
@@ -72,6 +75,7 @@ const getBankLogo = (bankId, banks) => {
 // ==========================================
 function AirlineCard({ airline, allBanks }) {
     const logoUrl = `https://www.google.com/s2/favicons?sz=128&domain=${airline.domain}`;
+    const hasBonus = airline.partners.some(p => p.bonus);
     
     return (
         <div className={`rounded-2xl border overflow-hidden transition-all mb-4 ${
@@ -119,6 +123,18 @@ function AirlineCard({ airline, allBanks }) {
                                 <span className="text-slate-300 dark:text-slate-700 text-[10px]">|</span>
                                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{airline.iata}</p>
                             </div>
+                            
+                            {hasBonus && (
+                                <div className="relative flex items-center shrink-0 ml-1">
+                                    {/* Glow Halo behind the text */}
+                                    <div className="absolute inset-0 bg-emerald-500 blur-[5px] opacity-40 animate-pulse rounded-full"></div>
+                                    
+                                    {/* The Visible Badge */}
+                                    <span className="relative bg-emerald-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded border border-emerald-400 shadow-sm animate-pulse tracking-tighter uppercase leading-none">
+                                        Bonus
+                                    </span>
+                                </div>
+                            )}
                         </div>
                         <div className="flex items-center gap-1.5 mt-1">
                             {ALLIANCE_LOGOS[airline.alliance] && (
@@ -131,7 +147,20 @@ function AirlineCard({ airline, allBanks }) {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-slate-100 dark:bg-slate-800">
                 {airline.partners.map((p, idx) => (
-                    <div key={idx} className="bg-white dark:bg-slate-900 p-4 flex justify-between items-center">
+                    <div key={idx} className="relative flex justify-between items-center p-3 bg-white dark:bg-slate-900 border-b last:border-0 border-slate-100 dark:border-slate-800">
+                        {p.bonus && (
+                            <div className="absolute -top-0 right-0 z-20">
+                                {/* Compact Glow Halo */}
+                                <div className="absolute inset-0 bg-emerald-500 blur-[4px] opacity-40 animate-pulse rounded"></div>
+                                
+                                {/* Tighter Badge */}
+                                <div className="relative bg-emerald-500 text-white text-[11px] font-black px-1.5 py-0.5 rounded
+                                                shadow-[0_0_8px_rgba(16,185,129,0.5)] border border-emerald-300/50 
+                                                animate-pulse whitespace-nowrap uppercase tracking-tighter">
+                                    +{p.bonus}% BONUS
+                                </div>
+                            </div>
+                        )}
                         <div className="flex items-center gap-3">
                             <div className="w-8 h-8 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center">
                                 <img src={getBankLogo(p.bank, allBanks)} className="w-5 h-5 object-contain" alt="" />
@@ -171,6 +200,7 @@ function App() {
     const [isStandalone, setIsStandalone] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
+    const [showOnlyBonuses, setShowOnlyBonuses] = useState(false);
 
     const [showTip, setShowTip] = useState(() => {
         return localStorage.getItem('dismissed_ios_tip') !== 'true';
@@ -261,8 +291,8 @@ function App() {
     }, []);
 
     const filteredData = useMemo(() => 
-        searchAirlines(data, search, activeBanks, activeAlliances), 
-    [data, search, activeBanks, activeAlliances]);
+        searchAirlines(data, search, activeBanks, activeAlliances, showOnlyBonuses), 
+    [data, search, activeBanks, activeAlliances, showOnlyBonuses]);
 
     // Detect if user moves up/down
     useEffect(() => {
@@ -359,7 +389,7 @@ function App() {
                                 <h1 className="text-2xl font-black italic tracking-tighter uppercase">Touch The Sky</h1>
                             </a>
 
-                            {/* ADD THE INSTALL BUTTON HERE */}
+                            {/* INSTALL BUTTON */}
                             <div className="flex items-center gap-2">
                                 {installPrompt && (
                                     <button 
@@ -388,6 +418,16 @@ function App() {
                             <div className="flex justify-between items-center px-1">
                                 <p className="text-[10px] font-bold text-slate-400 tracking-widest">Transfer Partners</p>
                                 <div className="flex gap-4">
+                                    <button 
+                                        onClick={() => setShowOnlyBonuses(!showOnlyBonuses)}
+                                        className={`text-[10px] font-black px-2 py-1 rounded transition-all ${
+                                            showOnlyBonuses 
+                                            ? 'bg-emerald-500 text-white animate-pulse' 
+                                            : 'text-emerald-500 hover:bg-emerald-50'
+                                        }`}
+                                    >
+                                        🔥 {showOnlyBonuses ? 'BONUS ONLY' : 'SHOW BONUSES'}
+                                    </button>
                                     <button onClick={() => setActiveBanks(banks.map(b => b.id))} className="text-[10px] font-bold text-blue-500 hover:text-blue-600 uppercase">Select All</button>
                                     <button onClick={() => setActiveBanks([])} className="text-[10px] font-bold text-slate-400 hover:text-slate-600 uppercase">Clear</button>
                                 </div>

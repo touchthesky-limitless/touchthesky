@@ -65,7 +65,7 @@
     "partners": [
       { "bank": "amex", "ratio": "1:1", "time": "Instant" },
       { "bank": "citi", "ratio": "1:1", "time": "Instant" },
-      { "bank": "capitalone", "ratio": "1:1", "time": "Instant" },
+      { "bank": "capitalone", "ratio": "1:1", "time": "Instant", "bonus": 15 },
       { "bank": "bilt", "ratio": "1:1", "time": "Instant" },
       { "bank": "wellsfargo", "ratio": "1:1", "time": "Instant" },
       { "bank": "marriottbonvoy", "ratio": "3:1", "time": "Instant" }
@@ -96,7 +96,7 @@
     "bookable": "AF",
     "featured": true,
     "partners": [
-      { "bank": "capitalone", "ratio": "1:0.75", "time": "Instant" },
+      { "bank": "capitalone", "ratio": "1:0.75", "time": "Instant", "bonus": 30 },
       { "bank": "bilt", "ratio": "1:1", "time": "Instant" },
       { "bank": "marriottbonvoy", "ratio": "3:1", "time": "Instant" }
     ]
@@ -594,7 +594,7 @@
     "bookable": "",
     "featured": false,
     "partners": [
-      { "bank": "chase", "ratio": "1:1", "time": "Instant" },
+      { "bank": "chase", "ratio": "1:1", "time": "Instant", "bonus": 50 },
       { "bank": "amex", "ratio": "1:1", "time": "Instant" },
       { "bank": "bilt", "ratio": "1:1", "time": "Instant" }
     ]
