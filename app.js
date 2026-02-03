@@ -169,6 +169,8 @@ function App() {
     const [installPrompt, setInstallPrompt] = useState(null);
     const [isIOS, setIsIOS] = useState(false);
     const [isStandalone, setIsStandalone] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
 
     const [showTip, setShowTip] = useState(() => {
         return localStorage.getItem('dismissed_ios_tip') !== 'true';
@@ -249,7 +251,7 @@ function App() {
         }
     };
 
-    // Detect O
+    // Detect iOS
     useEffect(() => {
         const isIphone = /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
         const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
@@ -261,6 +263,26 @@ function App() {
     const filteredData = useMemo(() => 
         searchAirlines(data, search, activeBanks, activeAlliances), 
     [data, search, activeBanks, activeAlliances]);
+
+    // Detect if user moves up/down
+    useEffect(() => {
+        const controlHeader = () => {
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY < 10) {
+                setIsVisible(true); // Always show at the very top
+            } else if (currentScrollY > lastScrollY) {
+                setIsVisible(false); // Hiding when scrolling down
+            } else {
+                setIsVisible(true); // Showing when scrolling up
+            }
+            
+            setLastScrollY(currentScrollY);
+        };
+
+        window.addEventListener('scroll', controlHeader);
+        return () => window.removeEventListener('scroll', controlHeader);
+    }, [lastScrollY]);
 
     // Function to instantly show every filtered result
     const showAllResults = () => {
@@ -323,7 +345,9 @@ function App() {
     return (
         <div className={isDark ? 'dark' : ''}>
             <div className="min-h-screen bg-slate-50 dark:bg-black text-slate-900 dark:text-slate-100 pb-10">
-                <header className="sticky top-0 z-10 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 p-4">
+                <header className={`sticky top-0 z-30 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 p-4 transition-transform duration-300 ${
+                    isVisible ? 'translate-y-0' : '-translate-y-full'
+                }`}>
                     <div className="max-w-4xl mx-auto flex flex-col gap-4">
                         <div className="flex justify-between items-center">
                             <a href="#" onClick={goHome} className="flex items-center gap-2 active:scale-95 transition-transform">
