@@ -26,12 +26,14 @@ export function useAirlines() {
   // --- 3. PWA Install State ---
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
 
+  const baseUrl = import.meta.env.BASE_URL;
+
   // --- 4. Effects ---
   useEffect(() => {
     // Fetch both JSON files from the public/data folder
     Promise.all([
-      fetch('./data/data.json').then(res => res.json()),
-      fetch('./data/banks.json').then(res => res.json())
+      fetch(`${baseUrl}data/data.json`).then(res => res.json()),
+      fetch(`${baseUrl}data/banks.json`).then(res => res.json())
     ])
     .then(([airlineData, bankData]) => {
       setData(airlineData);

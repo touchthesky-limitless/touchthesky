@@ -216,8 +216,8 @@ function App() {
 
     useEffect(() => {
         Promise.all([
-            fetch('./data/data.json').then(res => res.json()),
-            fetch('./data/banks.json').then(res => res.json())
+            fetch('data/data.json').then(res => res.json()),
+            fetch('data/banks.json').then(res => res.json())
         ]).then(([airlineData, bankData]) => {
             setData(airlineData);
             setBanks(bankData);
@@ -250,8 +250,8 @@ function App() {
 
     useEffect(() => {
         Promise.all([
-            fetch('./data/data.json').then(res => res.json()),
-            fetch('./data/banks.json').then(res => res.json())
+            fetch('data/data.json').then(res => res.json()),
+            fetch('data/banks.json').then(res => res.json())
         ]).then(([airlineData, bankData]) => {
             setData(airlineData);
             setBanks(bankData);
@@ -655,7 +655,7 @@ function App() {
                         <div class="flex items-center gap-3">
                             <div class="h-[1px] w-4 bg-slate-200 dark:bg-slate-800"></div>
                             <a 
-                                href="../v2/" 
+                                href="../" 
                                 class="text-[10px] font-bold tracking-[0.1em] text-slate-400 hover:text-blue-500 transition-colors uppercase"
                             >
                                 Upgrade to v2.0 (React)

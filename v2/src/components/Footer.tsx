@@ -24,7 +24,7 @@ export default function Footer() {
         <div className="flex items-center gap-3">
            <div className="h-[1px] w-4 bg-slate-200 dark:bg-slate-800"></div>
            <a 
-            href="../v1/" 
+            href="./v1/" 
             className="text-[10px] font-bold tracking-[0.1em] text-slate-400 hover:text-blue-500 transition-colors uppercase"
            >
             Legacy v1.0
