@@ -8,20 +8,20 @@
         "logoOverride": ""
     },
     {
-        "id": "capitalone",
-        "name": "Capital One",
-        "domain": "capitalone.com",
-        "bg": "bg-[#d03027]",
-        "text": "text-white",
-        "logoOverride": "https://icons.duckduckgo.com/ip3/www.capitalone.com.ico"
-    },
-    {
         "id": "chase",
         "name": "Chase",
         "domain": "chase.com",
         "bg": "bg-[#117aca]",
         "text": "text-white",
         "logoOverride": ""
+    },
+    {
+        "id": "capitalone",
+        "name": "Capital One",
+        "domain": "capitalone.com",
+        "bg": "bg-[#d03027]",
+        "text": "text-white",
+        "logoOverride": "https://icons.duckduckgo.com/ip3/www.capitalone.com.ico"
     },
     {
         "id": "citi",

@@ -16,7 +16,8 @@ const ALLIANCE_LOGOS = {
     'Hotels': null // Setting this to null triggers the emoji fallback
 };
 
-const ALLIANCE_NAMES = ['Oneworld', 'SkyTeam', 'Star Alliance', 'Hotels', 'Other'];
+const ALLIANCE_NAMES = ['SkyTeam', 'Star Alliance', 'Oneworld', 'Hotels', 'No Alliance'];
+const VISIBLE_PILLS_COUNT = 2;
 
 // ==========================================
 // SEARCH & SORT LOGIC
@@ -161,11 +162,22 @@ function App() {
     const [isDark, setIsDark] = useState(true);
     const [visibleCount, setVisibleCount] = useState(INITIAL_LOAD_COUNT);
     const [showMoreBanks, setShowMoreBanks] = useState(false);
+    const [showAllianceDropdown, setShowAllianceDropdown] = useState(false);
+    const allianceMenuRef = useRef(null);
     const searchInputRef = useRef(null);
     const moreBanksRef = useRef(null);
     const [installPrompt, setInstallPrompt] = useState(null);
     const [isIOS, setIsIOS] = useState(false);
     const [isStandalone, setIsStandalone] = useState(false);
+
+    const [showTip, setShowTip] = useState(() => {
+        return localStorage.getItem('dismissed_ios_tip') !== 'true';
+    });
+
+    const handleDismissTip = () => {
+        setShowTip(false);
+        localStorage.setItem('dismissed_ios_tip', 'true');
+    };
 
     const currentYear = new Date().getFullYear();
 
@@ -187,6 +199,16 @@ function App() {
         function handleClickOutside(event) {
             if (moreBanksRef.current && !moreBanksRef.current.contains(event.target)) {
                 setShowMoreBanks(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (allianceMenuRef.current && !allianceMenuRef.current.contains(event.target)) {
+                setShowAllianceDropdown(false);
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
@@ -337,17 +359,17 @@ function App() {
                             onChange={(e) => setSearch(e.target.value)} 
                         />
                         
-                        {/* BANK FILTER UI */}
+                        {/* Transfer Partners FILTER UI */}
                         <div ref={moreBanksRef} className="bg-slate-50/50 dark:bg-slate-900/50 rounded-2xl p-3 border border-slate-100 dark:border-slate-800">
                             <div className="flex justify-between items-center px-1">
-                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Filter Banks</p>
+                                <p className="text-[10px] font-bold text-slate-400 tracking-widest">Transfer Partners</p>
                                 <div className="flex gap-4">
                                     <button onClick={() => setActiveBanks(banks.map(b => b.id))} className="text-[10px] font-bold text-blue-500 hover:text-blue-600 uppercase">Select All</button>
                                     <button onClick={() => setActiveBanks([])} className="text-[10px] font-bold text-slate-400 hover:text-slate-600 uppercase">Clear</button>
                                 </div>
                             </div>
                             <div className="flex flex-wrap gap-2 pt-2 items-center">
-                                {banks.slice(0, 4).map(b => {
+                                {banks.slice(0, VISIBLE_PILLS_COUNT).map(b => {
                                     const isActive = activeBanks.includes(b.id);
                                     return (
                                         <button key={b.id} onClick={() => setActiveBanks(prev => isActive ? prev.filter(x => x !== b.id) : [...prev, b.id])}
@@ -362,14 +384,14 @@ function App() {
                                 {banks.length > 4 && (
                                     <div className="relative">
                                         <button onClick={() => setShowMoreBanks(!showMoreBanks)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold transition-all ${showMoreBanks ? 'bg-slate-800 border-slate-800 text-white' : 'bg-slate-100 border-slate-200 text-slate-600 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400 hover:bg-slate-200'}`}>
-                                            {showMoreBanks ? 'Close' : `+${banks.length - 4} More`}
+                                            {showMoreBanks ? 'Close' : `+${banks.length - VISIBLE_PILLS_COUNT} More`}
                                         </button>
                                         {showMoreBanks && (
                                             <>
                                                 <div className="fixed inset-0 z-40" onClick={() => setShowMoreBanks(false)} />
-                                                <div className="absolute left-0 mt-2 w-52 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl z-50 py-2">
+                                                <div className="absolute left-0 mt-2 w-fit min-w-[150px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl z-50 py-2">
                                                     <div className="max-h-[250px] overflow-y-auto px-1">
-                                                        {banks.slice(4).map(b => {
+                                                        {banks.slice(2).map(b => {
                                                             const isActive = activeBanks.includes(b.id);
                                                             return (
                                                                 <button key={b.id} onClick={() => setActiveBanks(prev => isActive ? prev.filter(x => x !== b.id) : [...prev, b.id])} className="w-full flex items-center justify-between px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-colors text-left">
@@ -394,32 +416,89 @@ function App() {
                             {/* ALLIANCE FILTER UI */}
                             <div className="mt-4">
                                 <div className="flex justify-between items-center px-1 mb-2">
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Alliances</p>
+                                    <p className="text-[10px] font-black text-slate-400 tracking-widest">Alliances</p>
                                     <div className="flex gap-3">
                                         <button onClick={() => setActiveAlliances(ALLIANCE_NAMES)} className="text-[10px] font-bold text-blue-500 uppercase">All</button>
                                         <button onClick={() => setActiveAlliances([])} className="text-[10px] font-bold text-slate-400 uppercase">None</button>
                                     </div>
                                 </div>
-                                <div className="flex flex-wrap gap-2">
-                                    {ALLIANCE_NAMES.map(name => {
+                                
+                                <div className="flex flex-wrap gap-2 relative">
+                                    {/* Show only the number of pills defined in our variable */}
+                                    {ALLIANCE_NAMES.slice(0, VISIBLE_PILLS_COUNT).map(name => {
                                         const isActive = activeAlliances.includes(name);
                                         const logo = ALLIANCE_LOGOS[name];
                                         return (
-                                            <button key={name} onClick={() => setActiveAlliances(prev => isActive ? prev.filter(x => x !== name) : [...prev, name])}
-                                                className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-200 text-xs font-semibold whitespace-nowrap ${isActive ? 'bg-blue-50 border-blue-500 text-blue-700 dark:bg-blue-500/20 dark:border-blue-400 dark:text-blue-300 shadow-sm' : 'bg-white border-slate-200 text-slate-700 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300'}`}>
-                                                    <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center overflow-hidden shrink-0 border border-slate-100 dark:border-transparent">
-                                                        {logo ? (
-                                                            <img src={logo} className="w-3 h-3 object-contain" alt="" />
-                                                        ) : (
-                                                            <span className="text-[10px]">
-                                                                {name === 'Hotels' ? '🏨' : '✨'}
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                {name}
+                                            <button 
+                                                key={name} 
+                                                onClick={() => setActiveAlliances(prev => isActive ? prev.filter(x => x !== name) : [...prev, name])}
+                                                className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all ${
+                                                    isActive 
+                                                    ? 'bg-blue-600 border-blue-600 text-white shadow-md' 
+                                                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300'
+                                                }`}
+                                            >
+                                                <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center overflow-hidden shrink-0 border border-slate-100">
+                                                    {logo ? <img src={logo} className="w-3 h-3 object-contain" alt="" /> : <span className="text-[10px]">{name === 'Hotels' ? '🏨' : '✨'}</span>}
+                                                </div>
+                                                <span className="text-xs font-bold whitespace-nowrap">{name}</span>
                                             </button>
                                         );
                                     })}
+
+                                    {/* Dropdown for the remaining items */}
+                                    <div className="relative" ref={allianceMenuRef}>
+                                        <button 
+                                            onClick={() => setShowAllianceDropdown(!showAllianceDropdown)}
+                                            className={`flex items-center gap-1 px-3 py-1.5 rounded-full border transition-all ${
+                                                showAllianceDropdown 
+                                                ? 'bg-slate-200 dark:bg-slate-700 border-slate-300' 
+                                                : 'bg-slate-100 dark:bg-slate-800 border-transparent text-slate-500'
+                                            }`}
+                                        >
+                                            <span className="text-xs font-bold tracking-tighter">
+                                                {/* Math is now dynamic based on our variable */}
+                                                {showAllianceDropdown ? 'Close' : `+${ALLIANCE_NAMES.length - VISIBLE_PILLS_COUNT} More`}
+                                            </span>
+                                        </button>
+
+                                        {/* FLOATING DROPDOWN MENU */}
+                                        {showAllianceDropdown && (
+                                            <div className="absolute left-0 mt-2 w-max min-w-[140px] max-w-[200px] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl z-50 py-1.5 animate-in fade-in zoom-in duration-150 origin-top-left">
+                                                {ALLIANCE_NAMES.slice(VISIBLE_PILLS_COUNT).map(name => {
+                                                    const isActive = activeAlliances.includes(name);
+                                                    const logo = ALLIANCE_LOGOS[name];
+                                                    
+                                                    return (
+                                                        <button
+                                                            key={name}
+                                                            onClick={() => setActiveAlliances(prev => isActive ? prev.filter(x => x !== name) : [...prev, name])}
+                                                            className="w-full flex items-center gap-2.5 px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
+                                                        >
+                                                            {/* Compact Logo Container */}
+                                                            <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center overflow-hidden shrink-0 border border-slate-100 shadow-sm">
+                                                                {logo ? (
+                                                                    <img src={logo} className="w-3 h-3 object-contain" alt="" />
+                                                                ) : (
+                                                                    <span className="text-[10px]">{name === 'Hotels' ? '🏨' : '✨'}</span>
+                                                                )}
+                                                            </div>
+
+                                                            <span className={`text-[11px] font-bold flex-1 text-left whitespace-nowrap ${
+                                                                isActive ? 'text-blue-600 dark:text-blue-400' : 'text-slate-600 dark:text-slate-300'
+                                                            }`}>
+                                                                {name}
+                                                            </span>
+
+                                                            {isActive && (
+                                                                <div className="w-1.5 h-1.5 bg-blue-600 rounded-full shrink-0" />
+                                                            )}
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -427,12 +506,25 @@ function App() {
                 </header>
 
                 {/* iOS Tip Banner */}          
-                {isIOS && !isStandalone && (
-                    <div className="mx-4 mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl flex items-center gap-3">
-                        <div className="text-2xl">📲</div>
-                        <p className="text-[11px] text-blue-800 dark:text-blue-200 leading-tight">
-                            <span className="font-bold">Install on iPhone:</span> Tap the <span className="bg-white dark:bg-slate-800 px-1 rounded">share icon</span> below and select <span className="font-bold">"Add to Home Screen"</span> for the best experience.
-                        </p>
+                {showTip && isIOS && !isStandalone && (
+                    <div className="mx-4 mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl flex items-center justify-between gap-3 animate-in fade-in slide-in-from-top-2">
+                        <div className="flex items-center gap-3">
+                            <div className="text-2xl">📲</div>
+                            <p className="text-[11px] text-blue-800 dark:text-blue-200 leading-tight">
+                                <span className="font-bold">Install on iPhone:</span> Tap the <span className="bg-white dark:bg-slate-800 px-1 rounded">share icon</span> and select <span className="font-bold">"Add to Home Screen"</span>.
+                            </p>
+                        </div>
+                        
+                        {/* Dismiss Button */}
+                        <button 
+                            onClick={handleDismissTip}
+                            className="p-1 hover:bg-blue-100 dark:hover:bg-blue-800/50 rounded-full transition-colors"
+                            aria-label="Dismiss tip"
+                        >
+                            <svg className="w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                     </div>
                 )}
 
