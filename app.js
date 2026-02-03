@@ -13,6 +13,7 @@ const ALLIANCE_LOGOS = {
     'Star Alliance': 'https://www.staralliance.com/o/staralliance-2025-theme/images/logo/favicon_2025.png',
     'SkyTeam': 'https://www.skyteam.com/favicon.ico',
     'Oneworld': 'https://www.oneworld.com/favicon.ico',
+    'No Alliance': './icon.svg',
     'Hotels': null
 };
 

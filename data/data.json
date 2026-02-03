@@ -132,7 +132,7 @@
     "name": "Emirates (Skyawards)",
     "iata": "EK",
     "domain": "emirates.com",
-    "alliance": "Independent",
+    "alliance": "No Alliance",
     "bookable": "A3, DE, JL, UA",
     "featured": false,
     "partners": [
@@ -147,7 +147,7 @@
     "name": "Etihad Airways (Guest)",
     "iata": "EY",
     "domain": "etihad.com",
-    "alliance": "Independent",
+    "alliance": "No Alliance",
     "bookable": "AA, AC, B6, EL, OZ",
     "featured": false,
     "partners": [
@@ -161,7 +161,7 @@
     "name": "Frontier (Miles)",
     "iata": "F9",
     "domain": "flyfrontier.com",
-    "alliance": "Independent",
+    "alliance": "No Alliance",
     "bookable": "",
     "featured": false,
     "partners": [
@@ -172,7 +172,7 @@
     "name": "China Southern",
     "iata": "F9",
     "domain": "https://www.csair.com/us/EN/index.shtml",
-    "alliance": "Independent",
+    "alliance": "No Alliance",
     "bookable": "",
     "featured": false,
     "partners": [
@@ -183,7 +183,7 @@
     "name": "Hainan Airlines",
     "iata": "HU",
     "domain": "hainanairlines.com/AT/US/Home",
-    "alliance": "Independent",
+    "alliance": "No Alliance",
     "bookable": "",
     "featured": true,
     "partners": [
@@ -195,7 +195,7 @@
     "name": "LATAM Airlines (Pass)",
     "iata": "LA",
     "domain": "latamairlines.com",
-    "alliance": "Independent",
+    "alliance": "No Alliance",
     "bookable": "DL",
     "featured": false,
     "partners": [
@@ -206,7 +206,7 @@
     "name": "Virgin Australia Airlines (Velocity Frequent Flyer)",
     "iata": "LA",
     "domain": "virginaustralia.com",
-    "alliance": "Independent",
+    "alliance": "No Alliance",
     "bookable": "AC, AS, EY, HA, NH, QR, SQ, VS, UA",
     "featured": false,
     "partners": [
@@ -234,7 +234,7 @@
     "name": "JetBlue (TrueBlue)",
     "iata": "B6",
     "domain": "jetblue.com",
-    "alliance": "Independent",
+    "alliance": "No Alliance",
     "bookable": "HA, EI",
     "featured": false,
     "partners": [
@@ -306,7 +306,7 @@
     "name": "Southwest Airlines (Rapid Rewards)",
     "iata": "WN",
     "domain": "southwest.com",
-    "alliance": "Independent",
+    "alliance": "No Alliance",
     "bookable": "CI, FI",
     "featured": false,
     "partners": [
@@ -319,7 +319,7 @@
     "name": "Aer Lingus (AerClub)",
     "iata": "EI",
     "domain": "aerlingus.com",
-    "alliance": "Independent",
+    "alliance": "No Alliance",
     "bookable": "AA, AC, AS, BA, B6, EY, IB, UA",
     "featured": false,
     "partners": [
@@ -335,7 +335,7 @@
     "name": "Vueling Airlines",
     "iata": "VY",
     "domain": "vueling.com",
-    "alliance": "Independent",
+    "alliance": "No Alliance",
     "bookable": "",
     "featured": false,
     "partners": [
