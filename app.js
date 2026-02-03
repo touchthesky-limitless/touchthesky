@@ -416,21 +416,31 @@ function App() {
                         
                         {/* Transfer Partners FILTER UI */}
                         <div ref={moreBanksRef} className="bg-slate-50/50 dark:bg-slate-900/50 rounded-2xl p-3 border border-slate-100 dark:border-slate-800">
-                            <div className="flex justify-between items-center px-1">
-                                <p className="text-[10px] font-bold text-slate-400 tracking-widest">Transfer Partners</p>
-                                <div className="flex gap-4">
+                            <div className="flex justify-between items-baseline px-1 gap-2">
+                                <p className="text-[10px] font-bold text-slate-400 tracking-widest shrink-0 uppercase">
+                                    Transfer Partners
+                                </p>
+                                
+                                <div className="flex gap-3 items-center shrink-0">
+                                    {/* THE BONUS TOGGLE */}
                                     <button 
                                         onClick={() => setShowOnlyBonuses(!showOnlyBonuses)}
-                                        className={`text-[10px] font-black px-2 py-1 rounded transition-all ${
+                                        className={`text-[9px] font-black px-2 py-1 rounded transition-all whitespace-nowrap ${
                                             showOnlyBonuses 
-                                            ? 'bg-emerald-500 text-white animate-pulse' 
-                                            : 'text-emerald-500 hover:bg-emerald-50'
+                                            ? 'bg-emerald-500 text-white shadow-sm' 
+                                            : 'text-emerald-500 border border-emerald-500/20 hover:bg-emerald-50'
                                         }`}
                                     >
-                                        🔥 {showOnlyBonuses ? 'BONUS ONLY' : 'SHOW BONUSES'}
+                                        🔥 {showOnlyBonuses ? 'BONUS' : 'SHOW BONUS'}
                                     </button>
-                                    <button onClick={() => setActiveBanks(banks.map(b => b.id))} className="text-[10px] font-bold text-blue-500 hover:text-blue-600 uppercase">Select All</button>
-                                    <button onClick={() => setActiveBanks([])} className="text-[10px] font-bold text-slate-400 hover:text-slate-600 uppercase">Clear</button>
+
+                                    <button onClick={() => setActiveBanks(banks.map(b => b.id))} className="text-[9px] font-bold text-blue-500 hover:text-blue-600 uppercase whitespace-nowrap">
+                                        All
+                                    </button>
+                                    
+                                    <button onClick={() => setActiveBanks([])} className="text-[9px] font-bold text-slate-400 hover:text-slate-600 uppercase whitespace-nowrap">
+                                        Clear
+                                    </button>
                                 </div>
                             </div>
                             <div className="flex flex-wrap gap-2 pt-2 items-center">
