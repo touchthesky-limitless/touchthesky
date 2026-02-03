@@ -1,39 +1,81 @@
-# TouchTheSky (T) ✈️
-> **"No limit, gonna touch the sky."**
+# ✈️ Touch The Sky - Airline Finder
 
-**TouchTheSky** is a minimalist, high-performance transfer partner engine. It is designed to bridge the gap between bank reward points and airline loyalty programs, empowering travelers to reach the horizon by finding the perfect redemption path.
+**Touch The Sky** is a modern, high-performance web application designed for aviation enthusiasts and travelers to search for airlines, alliances, and IATA codes. Built as a **Progressive Web App (PWA)**, it allows for a native-like experience on both desktop and mobile.
 
-## ✨ Features
-- **Limitless Search:** Instantly filter 100+ airlines by Name, IATA, or Alliance.
-- **Partner Mapping:** Real-time visibility into transfer ratios for major banks.
-- **Sky-High Priority:** "Featured" airlines stay at the peak to highlight the best redemption values.
-- **Aerodynamic UI:** A responsive, dark-mode first interface built for speed.
+---
+Explore the evolution of this project:
+* **[Version 1 (Vanilla JS)](./v1)**: The original build using pure JavaScript and CSS.
+* **[Version 2 (React + Vite)](./v2)**: The modern upgrade featuring React components and a manifest for installation.
 
-## 🚀 Concept
-The name represents the philosophy of removing boundaries. Why stay grounded when the sky is the limit? **TouchTheSky** turns points into pathways.
+---
 
-## 📱 Install as an App
-This tool is a **Progressive Web App (PWA)**. You can install it on your device for a native experience:
-- **iOS:** Open in Safari -> Tap 'Share' -> 'Add to Home Screen'.
-- **Android/Chrome:** Tap the three dots -> 'Install App'.
+## 🚀 Key Features
+
+* **Real-time Search:** Instantly filter airlines by name, alliance, or IATA code.
+* **Adaptive Theme:** Seamlessly toggle between **Light** and **Dark** modes.
+* **PWA Ready:** Installable on Desktop (Chrome/Edge/Brave) with specialized installation tips for iOS users.
+* **Responsive UI:** Fully optimized for all screen sizes using Tailwind CSS.
+* **Performance:** Built with Vite for lightning-fast development and optimized production builds.
+
+---
 
 ## 🛠️ Tech Stack
-- **Frontend:** React (Hooks)
-- **Styling:** Tailwind CSS
-- **Data:** JSON-driven partner architecture
+
+* **Framework:** [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+* **Build Tool:** [Vite](https://vitejs.dev/)
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+* **State Management:** React Hooks (`useState`, `useEffect`)
+* **PWA:** Web App Manifest and Service Workers
 
 ---
-## 🤖 Credits
-All code, logic, and UI architecture for **TouchTheSky** were written by **Gemini**. 
-Designed to be fast, limitless, and aerodynamic.
 
-> "No limit, gonna touch the sky."
+## 📦 Installation & Setup
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/touchthesky-limitless/touchthesky.git
+    cd touchthesky
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Run in Development mode:**
+    ```bash
+    npm run dev
+    ```
+    The app will be available at `http://localhost:5173`.
+
+4.  **Build for Production:**
+    ```bash
+    npm run build
+    ```
 
 ---
-*Built for those who refuse to stay grounded.*
 
-## ⚖️ License
+## 📱 PWA Requirements
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+To ensure the "Install App" button appears correctly in the header:
 
-© 2017-2026 **Touch The Sky Inc.** *No limit, gonna touch the sky.*
+1.  **Icons:** The browser requires at least one **PNG** icon (192x192 or 512x512). While `icon.svg` is used for scaling, the PNG is mandatory for installability.
+2.  **Manifest:** The `public/manifest.json` must be linked in the `index.html` using an absolute path: `<link rel="manifest" href="/manifest.json" />`.
+3.  **Service Worker:** A service worker (`public/sw.js`) must be registered in `main.tsx`.
+4.  **Security:** PWAs require **HTTPS** or `localhost` to trigger the installation prompt.
+
+---
+
+## 📂 Project Structure
+
+```text
+├── public/              # Static assets (Manifest, PNG/SVG Icons, Service Worker)
+├── src/
+│   ├── components/      # UI Components (Header, InstallButton, IOSTipBanner)
+│   ├── data/            # Airline and Alliance datasets
+│   ├── App.tsx          # Main application logic and state
+│   ├── index.css        # Tailwind directives and global styles
+│   └── main.tsx         # React entry point and SW registration
+├── index.html           # HTML5 template
+├── vite.config.ts       # Vite configuration
+└── tailwind.config.js   # Tailwind CSS theme customization

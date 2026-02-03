@@ -1,0 +1,40 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main] # This triggers the build every time you push to main
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: v2/package-lock.json
+
+      - name: Install and Build v2 (React)
+        run: |
+          cd v2
+          npm install
+          npm run build
+
+      - name: Prepare Deployment Directory
+        run: |
+          mkdir public_site
+          cp -r v2/dist/* public_site/    # v2 files go to the root of the site
+          cp -r v1 public_site/           # v1 folder moves into the site as a subfolder
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: public_site             # Deploy this specific combined folder
+          branch: gh-pages                # The branch GitHub Pages will serve from
