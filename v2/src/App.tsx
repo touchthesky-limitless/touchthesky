@@ -11,7 +11,6 @@ import LoadingScreen from './components/LoadingScreen';
 import Footer from './components/Footer';
 import { ALLIANCE_LOGOS } from './config';
 import IOSTipBanner from './components/IOSTipBanner';
-import InstallButton from './components/InstallButton';
 
 export default function App() {
   const isHeaderVisible = useHeaderVisible();
