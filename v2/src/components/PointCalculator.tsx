@@ -78,6 +78,11 @@ export default function PointCalculator({ setView }: PointCalculatorProps) {
         });
     };
 
+    const cleanNumber = (value: string): number => {
+        const sanitized = value.replace(/\D/g, '');
+        return sanitized === '' ? 0 : Number(sanitized);
+    };
+
     const generatePresetsFromData = (airlines: Airline[], banks: Bank[]) => {
         return banks.map(bank => {
             // 1. Find the first occurrence of this bank in your airline data to get its ratio
@@ -221,37 +226,46 @@ export default function PointCalculator({ setView }: PointCalculatorProps) {
                 <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Bonus %</label>
                     <input 
-                        type="number"
-                        value={bonusPercent || ''}
-                        onChange={(e) => setBonusPercent(Number(e.target.value))}
-                        placeholder="0"
-                        className="w-full p-4 rounded-xl bg-slate-100 dark:bg-slate-800 border-none outline-none focus:ring-2 focus:ring-blue-500 dark:text-white font-mono text-lg"
+                    type="text"
+                    inputMode="numeric"
+                    value={bonusPercent || ''}
+                    onChange={(e) => {
+                        setBonusPercent(cleanNumber(e.target.value));
+                        setActiveBankId(null);
+                    }}
+                    placeholder="0"
+                    className="w-full p-4 rounded-xl bg-slate-100 dark:bg-slate-800 border-none outline-none focus:ring-2 focus:ring-blue-500 dark:text-white font-mono text-lg"
                     />
                 </div>
 
                 <div className="space-y-4 md:col-span-2">
                     <div className="flex items-center gap-4">
-                        {/* Ratio From */}
-                        <input 
-                        type="number" 
-                        value={ratioFrom} 
+                    {/* Ratio From */}
+                    <input 
+                        type="text" 
+                        inputMode="numeric" 
+                        value={ratioFrom || ''} 
                         onChange={(e) => {
-                            setRatioFrom(Number(e.target.value));
-                            setActiveBankId(null); // Unselect the bank preset
+                            setRatioFrom(cleanNumber(e.target.value));
+                            setActiveBankId(null);
+                        }}
+                        className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-center font-bold dark:text-white border-none outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="1"
+                    />
+
+                    <span className="text-xl font-bold text-slate-300">:</span>
+
+                    {/* Ratio To */}
+                    <input 
+                        type="text" 
+                        inputMode="numeric" 
+                        value={ratioTo || ''} 
+                        onChange={(e) => {
+                            setRatioTo(cleanNumber(e.target.value));
+                            setActiveBankId(null);
                         }}
                         className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-center font-bold dark:text-white border-none"
-                        />
-                        <span className="text-xl font-bold text-slate-300">:</span>
-                        {/* Ratio To */}
-                        <input 
-                        type="number" 
-                        value={ratioTo} 
-                        onChange={(e) => {
-                            setRatioTo(Number(e.target.value));
-                            setActiveBankId(null); // Unselect the bank preset
-                        }}
-                        className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-center font-bold dark:text-white border-none"
-                        />
+                    />
                     </div>
                 </div>
             </div>
