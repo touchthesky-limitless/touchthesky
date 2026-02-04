@@ -3,29 +3,25 @@ import { ALLIANCE_NAMES } from '../config';
 import { ALLIANCE_LOGOS } from '../config';
 import { BankLogo } from './BankLogo';
 
-interface Props {
+interface SearchFiltersProps {
   banks: Bank[];
   activeBanks: string[];
-  setActiveBanks: React.Dispatch<React.SetStateAction<string[]>>;
+  toggleBank: (id: string) => void;
   activeAlliances: string[];
-  setActiveAlliances: React.Dispatch<React.SetStateAction<string[]>>;
+  toggleAlliance: (name: string) => void;
   showOnlyBonuses: boolean;
   setShowOnlyBonuses: (val: boolean) => void;
 }
 
 export default function SearchFilters({
-  banks, activeBanks, setActiveBanks,
-  activeAlliances, setActiveAlliances,
-  showOnlyBonuses, setShowOnlyBonuses
-}: Props) {
-  
-    const toggleBank = (id: string) => {
-    setActiveBanks(prev => prev.includes(id) ? prev.filter(b => b !== id) : [...prev, id]);
-    };
-
-    const toggleAlliance = (name: string) => {
-    setActiveAlliances(prev => prev.includes(name) ? prev.filter(a => a !== name) : [...prev, name]);
-    };
+  banks, 
+  activeBanks, 
+  toggleBank,
+  activeAlliances, 
+  toggleAlliance,
+  showOnlyBonuses, 
+  setShowOnlyBonuses
+}: SearchFiltersProps) {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-top-4 duration-700">

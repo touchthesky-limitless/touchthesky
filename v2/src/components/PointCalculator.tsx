@@ -238,6 +238,7 @@ export default function PointCalculator({ setView }: PointCalculatorProps) {
                 </div>
 
                 <div className="space-y-4 md:col-span-2">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Ratio</label>
                     <div className="flex items-center gap-4">
                     {/* Ratio From */}
                     <input 

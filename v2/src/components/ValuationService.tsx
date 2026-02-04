@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { VALUATIONS } from '../data/valuations';
-import { AIRLINES } from '../data/partners';
 import { useCopy } from '../hooks/useCopy';
+import { useAirlines } from '../hooks/useAirlines';
 
 export default function ValuationService() {
   const [isOpen, setIsOpen] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const { isCopied, shareResult } = useCopy();
+  const { getPartnerCount } = useAirlines();
 
   // Keyboard shortcut: Press ESC to close
   useEffect(() => {
@@ -22,12 +23,6 @@ export default function ValuationService() {
       title: item.name,
       details: `¢${item.value} per point` 
     });
-  };
-
-  const getPartnerCount = (bankCode: string) => {
-    return AIRLINES.filter(airline => 
-      airline.partners.some(p => p.bank.toLowerCase() === bankCode.toLowerCase())
-    ).length;
   };
 
   return (

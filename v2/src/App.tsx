@@ -9,11 +9,12 @@ import AirlineList from './components/AirlineList';
 import EmptyState from './components/EmptyState';
 import LoadingScreen from './components/LoadingScreen';
 import Footer from './components/Footer';
-import PointCalculator from './components/PointCalculator'; // Import your new component
+import PointCalculator from './components/PointCalculator';
 import { ALLIANCE_LOGOS } from './config';
 import IOSTipBanner from './components/IOSTipBanner';
 import CPPCalculator from './components/CPPCalculator';
 import ValuationService from './components/ValuationService';
+import Dashboard from './components/Dashboard';
 
 export default function App() {
   const isHeaderVisible = useHeaderVisible();
@@ -22,13 +23,16 @@ export default function App() {
   
   // 1. Add View State: 'home' for airlines, 'calculator' for point calculator
   const [view, setView] = useState<'home' | 'calculator' | 'cpp'>('home');
+  const [isDashboardOpen, setIsDashboardOpen] = useState(false);
 
   const { 
     filteredData, banks, loading, search, setSearch, 
     activeBanks, setActiveBanks, 
     activeAlliances, setActiveAlliances,
     showOnlyBonuses, setShowOnlyBonuses, 
-    isDark, setIsDark, installPrompt, handleInstallClick 
+    isDark, setIsDark, installPrompt, handleInstallClick,
+    toggleBank, toggleAlliance,
+    bonusCount, totalAirlines,
   } = useAirlines();
 
   const handleGlobalReset = (shouldScroll = false) => {
@@ -76,8 +80,35 @@ export default function App() {
           {/* 3. Show Airlines (Home) */}
           {view === 'home' && (
             <div className="animate-in fade-in duration-500">
-              <SearchFilters {...{ banks, activeBanks, setActiveBanks, activeAlliances, setActiveAlliances, showOnlyBonuses, setShowOnlyBonuses }} />
-              
+              <SearchFilters 
+                banks={banks}
+                activeBanks={activeBanks}
+                activeAlliances={activeAlliances}
+                showOnlyBonuses={showOnlyBonuses}
+                setShowOnlyBonuses={setShowOnlyBonuses}
+                toggleBank={toggleBank} 
+                toggleAlliance={toggleAlliance}
+              />
+              <button 
+                onClick={() => setIsDashboardOpen(true)}
+                className="cursor-pointer w-full mt-4 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl flex items-center justify-between group hover:border-sky-500/50 transition-all"
+              >
+                <div className="flex gap-4">
+                  <div className="text-left">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Partners</p>
+                    <p className="text-xl font-black text-sky-600">{totalAirlines}</p>
+                  </div>
+                  <div className="text-left border-l border-slate-200 dark:border-slate-800 pl-4">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Active Bonuses</p>
+                    <p className="text-xl font-black text-orange-500">
+                      {bonusCount}
+                    </p>
+                  </div>
+                </div>
+                <span className="bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-lg text-[10px] font-black text-slate-500 group-hover:bg-sky-600 group-hover:text-white transition-colors">
+                  VIEW INSIGHTS →
+                </span>
+              </button>
               {/* Controls Row */}
               <div className="flex items-center justify-between w-full mt-4 min-h-[48px]">
                 <div className="flex-1">
@@ -123,13 +154,32 @@ export default function App() {
                 ) : (
                   <EmptyState onClear={() => handleGlobalReset(true)} />
                 )}
+                {/* 4. The Dashboard Drawer (Overlay) */}
+                {isDashboardOpen && (
+                  <div className="fixed inset-0 z-[100] flex flex-col justify-end bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
+                    <div 
+                      className="absolute inset-0" 
+                      onClick={() => setIsDashboardOpen(false)} 
+                    />
+                    <div className="relative bg-slate-50 dark:bg-slate-950 rounded-t-[3rem] p-6 max-h-[85vh] overflow-y-auto shadow-2xl animate-in slide-in-from-bottom-full duration-500">
+                      <div className="w-12 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto mb-6" />
+                      <Dashboard />
+                      <button 
+                        onClick={() => setIsDashboardOpen(false)}
+                        className="cursor-pointer w-full mt-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase tracking-widest text-xs"
+                      >
+                        Close Insights
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
         </main>
         </div>
         <Footer />
-        <ValuationService  />
+        <ValuationService />
       </div>
     </div>
   );

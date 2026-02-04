@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 import type { Airline, Bank } from '../types';
-// 1. Import the static data directly
 import { AIRLINES } from '../data/partners';
 import { BANKS } from '../data/banks';
 
@@ -10,14 +9,10 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export function useAirlines() {
-  // --- 1. Data State ---
-  // We initialize these directly with the imported data instead of empty arrays
   const [data] = useState<Airline[]>(AIRLINES);
   const [banks] = useState<Bank[]>(BANKS);
-  // Loading is now permanently false because data is bundled
   const [loading] = useState(false);
 
-  // --- 2. Filter State ---
   const [search, setSearch] = useState('');
   const [activeBanks, setActiveBanks] = useState<string[]>([]);
   const [activeAlliances, setActiveAlliances] = useState<string[]>([]);
@@ -27,14 +22,7 @@ export function useAirlines() {
            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
   });
 
-  // --- 3. PWA Install State ---
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-
-  // --- 4. Effects ---
-  
-  /* DELETED: The useEffect fetch block is gone. 
-     The data is now available instantly on mount.
-  */
 
   useEffect(() => {
     if (isDark) {
@@ -55,7 +43,6 @@ export function useAirlines() {
     return () => window.removeEventListener('beforeinstallprompt', handler);
   }, []);
 
-  // --- 5. Logic (The Filter Engine) ---
   const filteredData = useMemo(() => {
     const searchTerm = search.toLowerCase().trim();
 
@@ -69,13 +56,12 @@ export function useAirlines() {
 
         if (!matchesSearch) return false;
 
-        const isMajor = ['Star Alliance', 'SkyTeam', 'Oneworld', 'Hotels'].includes(airline.alliance);
-        const category = isMajor ? airline.alliance : 'No Alliance';
+        const category = ['Star Alliance', 'SkyTeam', 'Oneworld', 'Hotels'].includes(airline.alliance) 
+          ? airline.alliance 
+          : 'No Alliance';
+        
         const matchesAlliance = activeAlliances.length === 0 || activeAlliances.includes(category);
-
-        const matchesBank = activeBanks.length === 0 || 
-                           airline.partners.some(p => activeBanks.includes(p.bank));
-
+        const matchesBank = activeBanks.length === 0 || airline.partners.some(p => activeBanks.includes(p.bank));
         const matchesBonus = !showOnlyBonuses || airline.partners.some(p => p.bonus);
 
         return matchesSearch && matchesAlliance && matchesBank && matchesBonus;
@@ -87,7 +73,6 @@ export function useAirlines() {
       });
   }, [data, search, activeBanks, activeAlliances, showOnlyBonuses]);
 
-  // --- 6. Actions ---
   const handleInstallClick = async () => {
     if (!installPrompt) return;
     installPrompt.prompt();
@@ -95,15 +80,44 @@ export function useAirlines() {
     if (outcome === 'accepted') setInstallPrompt(null);
   };
 
+  const toggleBank = (bankId: string) => {
+    setActiveBanks(prev => 
+      prev.includes(bankId) ? prev.filter(id => id !== bankId) : [...prev, bankId]
+    );
+  };
+
+  const toggleAlliance = (name: string) => {
+    setActiveAlliances(prev => 
+      prev.includes(name) ? prev.filter(a => a !== name) : [...prev, name]
+    );
+  };
+
+  const getPartnerCount = (bankCode: string) => {
+    return data.filter(airline => 
+      airline.partners.some(p => p.bank.toLowerCase() === bankCode.toLowerCase())
+    ).length;
+  };
+
+  const analytics = useMemo(() => {
+    return {
+      totalAirlines: filteredData.length,
+      featuredCount: filteredData.filter(a => a.featured).length,
+      allianceCount: new Set(filteredData.map(a => a.alliance)).size,
+      bonusCount: filteredData.filter(a => a.partners.some(p => p.bonus)).length,
+    };
+  }, [filteredData]);
+
   return {
-    banks,
-    loading,
-    filteredData,
+    banks, loading, filteredData,
     search, setSearch,
     activeBanks, setActiveBanks,
     activeAlliances, setActiveAlliances,
     showOnlyBonuses, setShowOnlyBonuses,
     isDark, setIsDark,
-    installPrompt, handleInstallClick
+    installPrompt, handleInstallClick,
+    toggleBank,
+    toggleAlliance,
+    getPartnerCount,
+    ...analytics,
   };
 }
