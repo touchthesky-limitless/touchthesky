@@ -41,7 +41,7 @@ export function useAirlines() {
       setLoading(false);
     })
     .catch(err => console.error("Flight cancelled (Data fetch error):", err));
-  }, []);
+  }, [baseUrl]);
 
   useEffect(() => {
     // Manage dark mode classes

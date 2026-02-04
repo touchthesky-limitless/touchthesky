@@ -1,71 +1,64 @@
 interface FilterPillsProps {
+  search: string;
   activeBanks: string[];
   activeAlliances: string[];
-  search: string;
-  onRemoveBank: (bank: string) => void;
-  onRemoveAlliance: (alliance: string) => void;
+  onRemoveBank: (id: string) => void;
+  onRemoveAlliance: (id: string) => void;
   onClearSearch: () => void;
   onClearAll: () => void;
 }
 
 export default function FilterPills({
+  search,
   activeBanks,
   activeAlliances,
-  search,
   onRemoveBank,
   onRemoveAlliance,
   onClearSearch,
   onClearAll
 }: FilterPillsProps) {
-  const hasFilters = activeBanks.length > 0 || activeAlliances.length > 0 || search;
-
+  
+  const hasFilters = search || activeBanks.length > 0 || activeAlliances.length > 0;
   if (!hasFilters) return null;
 
-  return (
-    <div className="flex flex-wrap items-center gap-2 mb-6 mt-6 animate-in fade-in slide-in-from-top-2 duration-300">
-      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-1">Filters:</span>
-      
-      {/* Search Pill */}
-      {search && (
-        <Pill label={`"${search}"`} onRemove={onClearSearch} color="blue" />
-      )}
-
-      {/* Alliance Pills */}
-      {activeAlliances.map(alliance => (
-        <Pill key={alliance} label={alliance} onRemove={() => onRemoveAlliance(alliance)} color="indigo" />
-      ))}
-
-      {/* Bank Pills */}
-      {activeBanks.map(bankId => (
-        <Pill key={bankId} label={bankId} onRemove={() => onRemoveBank(bankId)} color="slate" />
-      ))}
-
-      {/* Clear All Button */}
-      <button 
-        onClick={onClearAll}
-        className="cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 text-xs font-bold text-blue-500 hover:text-blue-600 px-2 py-1 transition-colors"
-      >
-        Clear All
-      </button>
-    </div>
-  );
-}
-
-// Internal Helper Component for the Pill UI
-function Pill({ label, onRemove, color }: { label: string, onRemove: () => void, color: string }) {
-  const colorClasses: Record<string, string> = {
-    blue: "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800",
-    indigo: "bg-indigo-100 text-indigo-700 border-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-400 dark:border-indigo-800",
-    slate: "bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700"
+  // The specific base class you liked
+  const base = "px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-tighter transition-all cursor-pointer border flex items-center gap-1.5 shadow-sm";
+  
+  // Style mapping for different categories
+  const styles = {
+    bank: `${base} bg-blue-600 border-blue-700 text-white shadow-blue-500/20`,
+    alliance: `${base} bg-emerald-600 border-emerald-700 text-white shadow-emerald-500/20`,
+    search: `${base} bg-slate-600 border-slate-700 text-white shadow-slate-500/20`,
+    clear: `${base} bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 hover:border-red-500 hover:text-red-500`
   };
 
   return (
-    <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-medium ${colorClasses[color]}`}>
-      {label}
-      <button onClick={onRemove} className="cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 hover:opacity-70 transition-opacity">
-        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-        </svg>
+    <div className="flex flex-wrap gap-2 mb-4 animate-in fade-in slide-in-from-left-2 duration-300">
+      
+      {/* Search Pill - Slate */}
+      {search && (
+        <button onClick={onClearSearch} className={styles.search}>
+          <span className="opacity-70">Search:</span> {search} ✕
+        </button>
+      )}
+
+      {/* Bank Pills - Blue */}
+      {activeBanks.map(bankId => (
+        <button key={bankId} onClick={() => onRemoveBank(bankId)} className={styles.bank}>
+          <span className="opacity-70">Bank:</span> {bankId} ✕
+        </button>
+      ))}
+
+      {/* Alliance Pills - Emerald */}
+      {activeAlliances.map(alliance => (
+        <button key={alliance} onClick={() => onRemoveAlliance(alliance)} className={styles.alliance}>
+          <span className="opacity-70">Alliance:</span> {alliance} ✕
+        </button>
+      ))}
+
+      {/* Clear All Button */}
+      <button onClick={onClearAll} className={styles.clear}>
+        Clear All
       </button>
     </div>
   );
