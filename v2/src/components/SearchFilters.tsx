@@ -1,6 +1,7 @@
 import type { Bank } from '../types';
 import { ALLIANCE_NAMES } from '../config';
 import { ALLIANCE_LOGOS } from '../config';
+import { BankLogo } from './BankLogo';
 
 interface Props {
   banks: Bank[];
@@ -38,18 +39,14 @@ export default function SearchFilters({
               onClick={() => toggleBank(bank.id)}
               className={`cursor-pointer disabled:cursor-not-allowed group relative p-2 rounded-2xl transition-all duration-300 ${
                 isActive 
-                  ? 'bg-blue-600 shadow-xl shadow-blue-500/40 scale-110' 
+                  ? `${bank.bg} ${bank.text} border-white shadow-md scale-105`
                   : 'bg-white dark:bg-slate-900 shadow-sm border border-slate-100 dark:border-slate-800'
               }`}
             >
               <div className={`w-8 h-8 flex items-center justify-center transition-all ${
                 isActive ? 'bg-white rounded-full p-1' : '' // This prevents the blue from touching the logo
               }`}>
-                <img 
-                  src={bank.logoOverride || `https://www.google.com/s2/favicons?sz=128&domain=${bank.domain}`}
-                  className="w-full h-full object-contain"
-                  alt={bank.name}
-                />
+                <BankLogo bank={bank} className="w-full h-full object-contain"/>
               </div>
             </button>
           );

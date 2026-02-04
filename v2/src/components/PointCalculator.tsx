@@ -1,5 +1,9 @@
 import { useState, useMemo } from 'react';
 import { useCopy } from '../hooks/useCopy';
+import type { Airline, Bank } from '../types';
+import airlineData from '../../public/data/data.json'
+import bankData from '../../public/data/banks.json'
+import { BankLogo } from './BankLogo';
 
 // Note: Ensure you are passing setView prop from App.tsx to this component
 interface PointCalculatorProps {
@@ -13,6 +17,7 @@ export default function PointCalculator({ setView }: PointCalculatorProps) {
     const [ratioTo, setRatioTo] = useState<number>(1);
     const { isCopied, shareResult } = useCopy();
     const [mode, setMode] = useState<'need' | 'have'>('need');
+    const [activeBankId, setActiveBankId] = useState<string | null>(null);
 
     const COMPARISON_PARTNERS = [
         { name: 'ANA / Virgin', ratio: 1, bonus: 0, icon: '✈️' },
@@ -72,6 +77,35 @@ export default function PointCalculator({ setView }: PointCalculatorProps) {
             ].join('\n')
         });
     };
+
+    const generatePresetsFromData = (airlines: Airline[], banks: Bank[]) => {
+        return banks.map(bank => {
+            // 1. Find the first occurrence of this bank in your airline data to get its ratio
+            let ratioString = "1:1"; // Default
+            
+            for (const airline of airlines) {
+                const partner = airline.partners?.find(p => p.bank === bank.id);
+                if (partner) {
+                    ratioString = partner.ratio;
+                    if (ratioString === "1:1") break; // Prioritize standard ratios
+                }
+            }
+
+            const [from, to] = ratioString.split(':').map(Number);
+
+            return {
+                ...bank,
+                label: bank.id === 'capitalone' ? 'Cap1' : bank.name.split(' ')[0],
+                from: from || 1,
+                to: to || 1
+            };
+        }).filter(b => b.id !== 'rove' && b.id !== 'avios'); // Optional: hide specific ones
+    };
+
+    const presets = useMemo(() => 
+    generatePresetsFromData(airlineData, bankData),
+    []
+    );
 
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
@@ -139,6 +173,50 @@ export default function PointCalculator({ setView }: PointCalculatorProps) {
                         className="w-full p-4 rounded-xl bg-slate-100 dark:bg-slate-800 border-none outline-none focus:ring-2 focus:ring-blue-500 dark:text-white font-mono text-lg"
                     />
                 </div>
+                {/*Bank buttons ratio */}
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2">
+                    {presets.map((bank) => {
+                        // Now we check the ID, which is unique to Chase, Amex, etc.
+                        const isActive = activeBankId === bank.id;
+
+                        return (
+                            <button
+                                key={bank.id}
+                                onClick={() => {
+                                    if (activeBankId === bank.id) {
+                                        // If already selected, UNSELECT
+                                        setActiveBankId(null);
+                                        setRatioFrom(1);
+                                        setRatioTo(1);
+                                    } else {
+                                        // Otherwise, SELECT
+                                        setActiveBankId(bank.id);
+                                        setRatioFrom(bank.from);
+                                        setRatioTo(bank.to);
+                                    }
+                                }}
+                                // cursor-pointer added per instructions [cite: 2026-02-04]
+                                className={`
+                                    flex flex-col items-center justify-center p-2 rounded-xl transition-all cursor-pointer border-2 min-h-[40px]
+                                    ${isActive 
+                                        ? `${bank.bg} ${bank.text} border-white shadow-md scale-105` 
+                                        : 'bg-slate-100 dark:bg-slate-800 border-transparent text-slate-500 hover:border-slate-300'
+                                    }
+                                `}
+                            >
+                                <span className="text-[7px] font-black uppercase mb-1">{bank.label}</span>
+                                
+                                <div className="bg-white p-1 rounded-md mb-1">
+                                    <BankLogo bank={bank} className="w-5 h-5 object-contain" />
+                                </div>
+
+                                <span className="text-[10px] font-bold">
+                                    {bank.from}:{bank.to}
+                                </span>
+                            </button>
+                        );
+                    })}
+                </div>
 
                 <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Bonus %</label>
@@ -152,42 +230,29 @@ export default function PointCalculator({ setView }: PointCalculatorProps) {
                 </div>
 
                 <div className="space-y-4 md:col-span-2">
-                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Transfer Ratio (Bank : Airline)</label>
-                    <div className="flex flex-wrap gap-2 mb-4 mt-2">
-                        {[
-                        { label: 'Standard 1:1', from: 1, to: 1 },
-                        { label: 'Hilton 1:2', from: 1, to: 2 },
-                        { label: 'Marriott 3:1', from: 3, to: 1 },
-                        ].map((p) => (
-                        <button
-                            key={p.label}
-                            onClick={() => { setRatioFrom(p.from); setRatioTo(p.to); }}
-                            className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-tighter transition-all cursor-pointer border ${
-                            ratioFrom === p.from && ratioTo === p.to
-                                ? 'bg-blue-600 border-blue-600 text-white'
-                                : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500'
-                            }`}
-                        >
-                            {p.label}
-                        </button>
-                        ))}
-                </div>
-
-                <div className="flex items-center gap-4">
-                    <input 
-                    type="number" 
-                    value={ratioFrom} 
-                    onChange={(e) => setRatioFrom(Number(e.target.value))}
-                    className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-center font-bold dark:text-white border-none"
-                    />
-                    <span className="text-xl font-bold text-slate-300">:</span>
-                    <input 
-                    type="number" 
-                    value={ratioTo} 
-                    onChange={(e) => setRatioTo(Number(e.target.value))}
-                    className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-center font-bold dark:text-white border-none"
-                    />
-                </div>
+                    <div className="flex items-center gap-4">
+                        {/* Ratio From */}
+                        <input 
+                        type="number" 
+                        value={ratioFrom} 
+                        onChange={(e) => {
+                            setRatioFrom(Number(e.target.value));
+                            setActiveBankId(null); // Unselect the bank preset
+                        }}
+                        className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-center font-bold dark:text-white border-none"
+                        />
+                        <span className="text-xl font-bold text-slate-300">:</span>
+                        {/* Ratio To */}
+                        <input 
+                        type="number" 
+                        value={ratioTo} 
+                        onChange={(e) => {
+                            setRatioTo(Number(e.target.value));
+                            setActiveBankId(null); // Unselect the bank preset
+                        }}
+                        className="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-center font-bold dark:text-white border-none"
+                        />
+                    </div>
                 </div>
             </div>
             </div>

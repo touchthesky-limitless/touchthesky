@@ -22,7 +22,7 @@ export default function FilterPills({
   if (!hasFilters) return null;
 
   // The specific base class you liked
-  const base = "px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-tighter transition-all cursor-pointer border flex items-center gap-1.5 shadow-sm";
+  const base = "px-3 py-1.5 rounded-lg text-[8px] font-black uppercase tracking-tighter transition-all cursor-pointer border flex items-center gap-1.5 shadow-sm";
   
   // Style mapping for different categories
   const styles = {
@@ -38,21 +38,21 @@ export default function FilterPills({
       {/* Search Pill - Slate */}
       {search && (
         <button onClick={onClearSearch} className={styles.search}>
-          <span className="opacity-70">Search:</span> {search} ✕
+          <span className="opacity-70">Search:</span>{search} ✕
         </button>
       )}
 
       {/* Bank Pills - Blue */}
       {activeBanks.map(bankId => (
         <button key={bankId} onClick={() => onRemoveBank(bankId)} className={styles.bank}>
-          <span className="opacity-70">Bank:</span> {bankId} ✕
+          <span className="opacity-70"></span>{bankId} ✕
         </button>
       ))}
 
       {/* Alliance Pills - Emerald */}
       {activeAlliances.map(alliance => (
         <button key={alliance} onClick={() => onRemoveAlliance(alliance)} className={styles.alliance}>
-          <span className="opacity-70">Alliance:</span> {alliance} ✕
+          <span className="opacity-70"></span>{alliance} ✕
         </button>
       ))}
 

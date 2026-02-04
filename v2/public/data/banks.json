@@ -51,7 +51,7 @@
         "id": "avios",
         "name": "Avios",
         "domain": "avios.com",
-        "bg": "bg-[#0d1825]",
+        "bg": "bg-[#1b36b4]",
         "text": "text-white",
         "logoOverride": ""
     },
