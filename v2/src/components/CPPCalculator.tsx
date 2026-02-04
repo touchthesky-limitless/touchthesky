@@ -129,7 +129,6 @@ export default function CPPCalculator({ setView }: CPPCalculatorProps) {
             <span className="text-2xl opacity-70">¢</span>
             {formatNumber(Math.floor(result.cpp).toString())}
             <span className="text-4xl">.{(result.cpp % 1).toFixed(2).split('.')[1]}</span>
-            <span className="text-2xl opacity-70 ml-1">¢</span>
             </div>
                 {result.isGoodValue && (
                     <div className="mt-4 inline-block bg-white/20 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter animate-bounce">
