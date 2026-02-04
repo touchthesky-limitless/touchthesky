@@ -1,4 +1,22 @@
-[
+export interface TransferPartner {
+  bank: string;
+  ratio: string;
+  time: string;
+  bonus?: number;
+}
+
+export interface Airline {
+  name: string;
+  award: string;
+  iata: string;
+  domain: string;
+  alliance: 'Star Alliance' | 'SkyTeam' | 'Oneworld' | 'No Alliance' | 'Hotels';
+  bookable: string;
+  featured: boolean;
+  partners: TransferPartner[];
+}
+
+export const AIRLINES: Airline[] = [
   {
     "name": "Air Canada",
     "award": "Aeroplan",

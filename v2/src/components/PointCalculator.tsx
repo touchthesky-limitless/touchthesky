@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react';
 import { useCopy } from '../hooks/useCopy';
 import type { Airline, Bank } from '../types';
-import airlineData from '../../public/data/data.json'
-import bankData from '../../public/data/banks.json'
+import { AIRLINES } from '../data/partners';
+import { BANKS } from '../data/banks';
 import { BankLogo } from './BankLogo';
 
 // Note: Ensure you are passing setView prop from App.tsx to this component
@@ -108,8 +108,7 @@ export default function PointCalculator({ setView }: PointCalculatorProps) {
     };
 
     const presets = useMemo(() => 
-    generatePresetsFromData(airlineData, bankData),
-    []
+        generatePresetsFromData(AIRLINES, BANKS),[]
     );
 
     return (
@@ -158,7 +157,7 @@ export default function PointCalculator({ setView }: PointCalculatorProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                        {mode === 'need' ? 'Points Needed for Flight' : 'Points I Have'}
+                        {mode === 'need' ? 'Points Needed' : 'Points I Have'}
                     </label>
                     <input 
                         type="text"

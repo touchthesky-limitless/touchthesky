@@ -13,6 +13,7 @@ import PointCalculator from './components/PointCalculator'; // Import your new c
 import { ALLIANCE_LOGOS } from './config';
 import IOSTipBanner from './components/IOSTipBanner';
 import CPPCalculator from './components/CPPCalculator';
+import ValuationService from './components/ValuationService';
 
 export default function App() {
   const isHeaderVisible = useHeaderVisible();
@@ -128,6 +129,7 @@ export default function App() {
         </main>
         </div>
         <Footer />
+        <ValuationService  />
       </div>
     </div>
   );
