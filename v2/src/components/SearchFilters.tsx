@@ -34,7 +34,7 @@ export default function SearchFilters() {
 								}`}
 							>
 								<BankLogo
-									bank={bank}
+									bankId={bank.id}
 									className="w-full h-full object-contain"
 								/>
 							</div>

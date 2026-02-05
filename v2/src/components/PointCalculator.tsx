@@ -233,7 +233,7 @@ export default function PointCalculator({ setView }: PointCalculatorProps) {
 									</span>
 
 									<div className="bg-white p-1 rounded-md mb-1">
-										<BankLogo bank={bank} className="w-5 h-5 object-contain" />
+										<BankLogo bankId={bank.id} className="w-5 h-5 object-contain" />
 									</div>
 
 									<span className="text-[10px] font-bold">

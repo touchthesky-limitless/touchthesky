@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { usePointCalculator } from "../hooks/usePointCalculator";
-import { useGetAirlineLogos } from "../hooks/useGetAirlineLogo";
+import { useGetAirlineLogos } from "../hooks/useGetAirlineLogos";
 
 export default function AirlineCard({
 	airline,
@@ -109,7 +109,7 @@ export default function AirlineCard({
 						>
 							<div className="w-7 h-7 rounded-lg bg-white p-1 flex items-center justify-center shadow-sm flex-shrink-0 border border-slate-100">
 								<img
-									src={getBankLogo(p.bank, banks)}
+									src={getBankLogo(p.bank)}
 									className="w-full h-full object-contain"
 									alt=""
 								/>

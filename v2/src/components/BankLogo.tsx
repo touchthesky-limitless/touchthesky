@@ -1,21 +1,21 @@
+import { useAirlines } from "../hooks/useAirlines";
+import { useGetAirlineLogos } from "../hooks/useGetAirlineLogos";
+import type { Airline } from "../types";
+
 interface BankLogoProps {
-	bank: {
-		name: string;
-		domain?: string;
-		logoOverride?: string;
-	};
+	bankId: string;
+	airline?: Airline;
 	className?: string;
 }
 
-export const BankLogo = ({ bank, className = "w-6 h-6" }: BankLogoProps) => {
-	// Fallback icon if no domain is found
-	const fallbackIcon = `https://ui-avatars.com/api/?name=${encodeURIComponent(bank.name)}&background=random`;
+export const BankLogo = ({ bankId, airline, className = "w-6 h-6" }: BankLogoProps) => {
+	const { banks } = useAirlines(); // 🟢 Get data from context
+	const { getBankLogo } = useGetAirlineLogos(airline, banks);
 
-	const logoSrc =
-		bank.logoOverride ||
-		(bank.domain
-			? `https://www.google.com/s2/favicons?sz=128&domain=${bank.domain}`
-			: fallbackIcon);
+	if (!bankId) return null;
+
+	const logoSrc = getBankLogo(bankId);
+	const fallbackIcon = `https://ui-avatars.com/api/?name=${encodeURIComponent(bankId)}&background=random`;
 
 	return (
 		<div
@@ -24,7 +24,7 @@ export const BankLogo = ({ bank, className = "w-6 h-6" }: BankLogoProps) => {
 			<img
 				src={logoSrc}
 				className="w-full h-full object-contain"
-				alt={`${bank.name} logo`}
+				alt={`${bankId} logo`}
 				loading="lazy"
 				onError={(e) => {
 					// If Google Favicon fails, swap to the fallback initials
