@@ -123,9 +123,9 @@ export default function AirlineCard({
 									<span className="text-[11px] font-bold leading-none">
 										{p.ratio}
 									</span>
-									{p.bonus && (
+									{p.bonusAmount && (
 										<span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 animate-pulse">
-											+{p.bonus}%
+											+{p.bonusAmount}%
 										</span>
 									)}
 								</div>
@@ -179,13 +179,13 @@ export default function AirlineCard({
 											{calcMode === "have" ? (
 												<>
 													={" "}
-													{calculateTransfer(p.ratio, p.bonus).toLocaleString()}{" "}
+													{calculateTransfer(p.ratio, p.bonusAmount).toLocaleString()}{" "}
 													{airline.award}
 												</>
 											) : (
 												<>
 													Requires{" "}
-													{calculateRequired(p.ratio, p.bonus).toLocaleString()}{" "}
+													{calculateRequired(p.ratio, p.bonusAmount).toLocaleString()}{" "}
 													{p.bank} Points
 												</>
 											)}

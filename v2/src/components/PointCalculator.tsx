@@ -20,9 +20,9 @@ export default function PointCalculator({ setView }: PointCalculatorProps) {
 	const [activeBankId, setActiveBankId] = useState<string | null>(null);
 
 	const COMPARISON_PARTNERS = [
-		{ name: "ANA / Virgin", ratio: 1, bonus: 0, icon: "✈️" },
-		{ name: "Hilton Honors", ratio: 2, bonus: 0, icon: "🏨" },
-		{ name: "EVA Air", ratio: 1, bonus: 0, icon: "🛩️" },
+		{ name: "ANA / Virgin", ratio: 1, bonusAmount: 0, icon: "✈️" },
+		{ name: "Hilton Honors", ratio: 2, bonusAmount: 0, icon: "🏨" },
+		{ name: "EVA Air", ratio: 1, bonusAmount: 0, icon: "🛩️" },
 	];
 
 	const result = useMemo(() => {

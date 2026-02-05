@@ -90,7 +90,7 @@ export function AirlinesProvider({ children }: { children: React.ReactNode }) {
 					airline.partners.some((p) => activeBanks.includes(p.bank));
 
 				const matchesBonus =
-					!showOnlyBonuses || airline.partners.some((p) => (p.bonus ?? 0) > 0);
+					!showOnlyBonuses || airline.partners.some((p) => (p.bonusAmount ?? 0) > 0);
 
 				return matchesAlliance && matchesBank && matchesBonus;
 			})
@@ -138,7 +138,7 @@ export function AirlinesProvider({ children }: { children: React.ReactNode }) {
 			filteredCount: filteredData.length,
 			featuredCount: filteredData.filter((a) => a.featured).length,
 			allianceCount: new Set(filteredData.map((a) => a.alliance)).size,
-			bonusCount: data.filter((a) => a.partners.some((p) => (p.bonus ?? 0) > 0))
+			bonusCount: data.filter((a) => a.partners.some((p) => (p.bonusAmount ?? 0) > 0))
 				.length,
 		};
 	}, [data, filteredData]);

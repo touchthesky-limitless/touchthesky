@@ -22,12 +22,12 @@ export default function AirlineCard({
         : `https://www.google.com/s2/favicons?sz=128&domain=${airline.domain}`;
 
     // 🧮 Calculation Logic with 1,000 formatting
-    const calculateTransfer = (amountStr: string, ratioStr: string, bonus: number = 0) => {
+    const calculateTransfer = (amountStr: string, ratioStr: string, bonusAmount: number = 0) => {
         const numericAmount = Number(amountStr.replace(/,/g, ''));
         if (isNaN(numericAmount)) return 0;
         const [from, to] = ratioStr.split(':').map(Number);
         const base = (numericAmount / from) * to;
-        return Math.floor(base * (1 + (bonus || 0) / 100));
+        return Math.floor(base * (1 + (bonusAmount || 0) / 100));
     };
 
     return (
@@ -75,7 +75,7 @@ export default function AirlineCard({
                             className="cursor-pointer flex items-center gap-3 border rounded-2xl px-3 py-1.5 bg-slate-50 dark:bg-slate-900/40 border-slate-200 dark:border-slate-800 hover:border-blue-400 transition-all"
                         >
                             <span className="text-[11px] font-bold">{p.bank} {p.ratio}</span>
-                            {p.bonus && <span className="text-[10px] font-black text-emerald-500">+{p.bonus}%</span>}
+                            {p.bonusAmount && <span className="text-[10px] font-black text-emerald-500">+{p.bonusAmount}%</span>}
                         </button>
 
                         {calcPartner === p.bank && (
@@ -91,7 +91,7 @@ export default function AirlineCard({
                                     className="w-full bg-white dark:bg-slate-800 rounded-lg px-2 py-1 text-xs font-bold outline-none border border-slate-200" 
                                 />
                                 <div className="mt-2 text-[11px] font-black text-slate-900 dark:text-white">
-                                    = {calculateTransfer(pointsAmount, p.ratio, p.bonus).toLocaleString()} {airline.award}
+                                    = {calculateTransfer(pointsAmount, p.ratio, p.bonusAmount).toLocaleString()} {airline.award}
                                 </div>
                             </div>
                         )}
