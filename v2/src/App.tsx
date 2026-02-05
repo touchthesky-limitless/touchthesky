@@ -15,35 +15,35 @@ import IOSTipBanner from './components/IOSTipBanner';
 import CPPCalculator from './components/CPPCalculator';
 import ValuationService from './components/ValuationService';
 import Dashboard from './components/Dashboard';
+import StatsBar from './components/StatsBar';
 
 export default function App() {
   const isHeaderVisible = useHeaderVisible();
   const [layout, setLayout] = useState<'grid' | 'list'>('grid');
   const [resetKey, setResetKey] = useState(0);
-  
-  // 1. Add View State: 'home' for airlines, 'calculator' for point calculator
+
   const [view, setView] = useState<'home' | 'calculator' | 'cpp'>('home');
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
 
   const { 
     filteredData, banks, loading, search, setSearch, 
-    activeBanks, setActiveBanks, 
-    activeAlliances, setActiveAlliances,
+    activeBanks, 
+    activeAlliances,
     showOnlyBonuses, setShowOnlyBonuses, 
-    isDark, setIsDark, installPrompt, handleInstallClick,
+    isDark,
     toggleBank, toggleAlliance,
-    bonusCount, totalAirlines,
+    resetFilters,
   } = useAirlines();
 
   const handleGlobalReset = (shouldScroll = false) => {
-    setSearch('');
-    setActiveBanks([]);
-    setActiveAlliances([]);
-    setShowOnlyBonuses(false);
+    resetFilters(); 
+
     setResetKey(prev => prev + 1);
-    // Ensure we go back to the home view when resetting/going home
     setView('home'); 
-    if (shouldScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (shouldScroll) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   if (loading) return <LoadingScreen />;
@@ -56,13 +56,12 @@ export default function App() {
           goHome={() => handleGlobalReset(true)}
           view={view}
           setView={setView}
-          {...{ isDark, setIsDark, search, setSearch, installPrompt, handleInstallClick }} 
         />
         
         <div className="min-h-screen bg-slate-50 dark:bg-[#020617]">
           <IOSTipBanner />
 
-         <main className="max-w-4xl mx-auto p-4">
+        <main className="max-w-4xl mx-auto p-4">
           {/* 1. Show Point Calculator */}
           {view === 'calculator' && (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -89,33 +88,15 @@ export default function App() {
                 toggleBank={toggleBank} 
                 toggleAlliance={toggleAlliance}
               />
-              <button 
-                onClick={() => setIsDashboardOpen(true)}
-                className="cursor-pointer w-full mt-4 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl flex items-center justify-between group hover:border-sky-500/50 transition-all"
-              >
-                <div className="flex gap-4">
-                  <div className="text-left">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Partners</p>
-                    <p className="text-xl font-black text-sky-600">{totalAirlines}</p>
-                  </div>
-                  <div className="text-left border-l border-slate-200 dark:border-slate-800 pl-4">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Active Bonuses</p>
-                    <p className="text-xl font-black text-orange-500">
-                      {bonusCount}
-                    </p>
-                  </div>
-                </div>
-                <span className="bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-lg text-[10px] font-black text-slate-500 group-hover:bg-sky-600 group-hover:text-white transition-colors">
-                  VIEW INSIGHTS →
-                </span>
-              </button>
+              {/* Insights Stats Bar */}
+              <StatsBar onOpenDashboard={() => setIsDashboardOpen(true)} />
               {/* Controls Row */}
               <div className="flex items-center justify-between w-full mt-4 min-h-[48px]">
                 <div className="flex-1">
                   <FilterPills 
                     {...{ search, activeBanks, activeAlliances }}
-                    onRemoveBank={(id) => setActiveBanks(prev => prev.filter(b => b !== id))}
-                    onRemoveAlliance={(a) => setActiveAlliances(prev => prev.filter(it => it !== a))}
+                    onRemoveBank={(id) => toggleBank(id)}
+                    onRemoveAlliance={toggleAlliance}
                     onClearSearch={() => setSearch('')}
                     onClearAll={() => handleGlobalReset(false)}
                   />

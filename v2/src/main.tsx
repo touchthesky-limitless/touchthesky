@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
+import { AirlinesProvider } from './context/AirlinesProvider.tsx';
 
 // Register Service Worker for PWA installation
 if ('serviceWorker' in navigator) {
@@ -15,6 +16,8 @@ if ('serviceWorker' in navigator) {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
-  </StrictMode>,
+      <AirlinesProvider>
+        <App />
+      </AirlinesProvider>
+    </StrictMode>,
 )
