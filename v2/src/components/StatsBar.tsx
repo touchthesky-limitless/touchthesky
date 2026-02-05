@@ -30,7 +30,7 @@ export default function StatsBar({
 					}`}
 				>
 					<p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-						Active Bonuses
+						Bonuses
 					</p>
 					<div className="flex items-center gap-1">
 						<p
