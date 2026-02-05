@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
+import { usePointCalculator } from "../hooks/usePointCalculator";
+import { useGetAirlineLogos } from "../hooks/useGetAirlineLogo";
 
 export default function AirlineCard({
 	airline,
@@ -11,39 +13,15 @@ export default function AirlineCard({
 
 	// State for calculator
 	const [calcPartner, setCalcPartner] = useState<string | null>(null);
-	// Initializing with formatted string for display preference
-	const [pointsAmount, setPointsAmount] = useState<string>("1,000");
-
-	const airlineLogoUrl = airline.logo
-		? airline.logo.startsWith("http")
-			? airline.logo
-			: `/logos/${airline.logo}`
-		: `https://www.google.com/s2/favicons?sz=128&domain=${airline.domain}`;
-
-	const getBankLogo = (bankId: string, banksList: any[]) => {
-		const bank = banksList?.find(
-			(b) => b.id.toLowerCase() === bankId.toLowerCase(),
-		);
-		if (!bank) return `https://ui-avatars.com/api/?name=${bankId}`;
-		return (
-			bank.logoOverride ||
-			`https://www.google.com/s2/favicons?sz=64&domain=${bank.domain}`
-		);
-	};
-
-	// Calculation logic handling thousand separators
-	const calculateTransfer = (
-		amountStr: string,
-		ratioStr: string,
-		bonus: number = 0,
-	) => {
-		const numericAmount = Number(amountStr.replace(/,/g, ""));
-		if (isNaN(numericAmount)) return 0;
-
-		const [from, to] = ratioStr.split(":").map(Number);
-		const base = (numericAmount / from) * to;
-		return Math.floor(base * (1 + (bonus || 0) / 100));
-	};
+	const {
+		pointsAmount,
+		setPointsAmount,
+		calcMode,
+		setCalcMode,
+		calculateTransfer,
+		calculateRequired,
+	} = usePointCalculator();
+	const { airlineLogoUrl, getBankLogo } = useGetAirlineLogos(airline, banks);
 
 	const featuredStyles = airline.featured
 		? "ring-2 ring-blue-500 shadow-lg shadow-blue-500/10"
@@ -156,37 +134,55 @@ export default function AirlineCard({
 
 						{/* Calculator UI */}
 						{calcPartner === p.bank && (
-							<div className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl animate-in fade-in zoom-in-95 duration-200">
-								<div className="flex flex-col gap-2 min-w-[160px]">
-									<label className="text-[9px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">
-										Points to Transfer
-									</label>
-									<input
-										type="text"
-										value={pointsAmount}
-										onClick={(e) => e.stopPropagation()}
-										onChange={(e) => {
-											const val = e.target.value.replace(/,/g, "");
-											if (!isNaN(Number(val))) {
-												setPointsAmount(Number(val).toLocaleString());
-											}
-										}}
-										className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs font-bold outline-none focus:ring-1 focus:ring-blue-500"
-									/>
-									<div className="pt-1 border-t border-blue-100 dark:border-blue-800/50">
-										<div className="text-[11px] font-black text-slate-900 dark:text-white">
-											={" "}
-											{calculateTransfer(
-												pointsAmount,
-												p.ratio,
-												p.bonus,
-											).toLocaleString()}{" "}
-											{airline.award}
-										</div>
-									</div>
-								</div>
-							</div>
-						)}
+                            <div className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl animate-in fade-in zoom-in-95 duration-200">
+                                <div className="flex flex-col gap-2 min-w-[160px]">
+                                    
+                                    {/* 🟢 EDITED: Mode Toggle Buttons */}
+                                    <div className="flex bg-blue-100 dark:bg-slate-800 p-0.5 rounded-lg mb-1">
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); setCalcMode("have"); }}
+                                            className={`flex-1 text-[8px] uppercase font-black py-1 px-2 rounded-md transition-all cursor-pointer ${calcMode === "have" ? "bg-white dark:bg-blue-600 shadow-sm text-blue-600 dark:text-white" : "text-slate-500"}`}
+                                        >
+                                            I Have
+                                        </button>
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); setCalcMode("need"); }}
+                                            className={`flex-1 text-[8px] uppercase font-black py-1 px-2 rounded-md transition-all cursor-pointer ${calcMode === "need" ? "bg-white dark:bg-blue-600 shadow-sm text-blue-600 dark:text-white" : "text-slate-500"}`}
+                                        >
+                                            I Need
+                                        </button>
+                                    </div>
+
+                                    <label className="text-[9px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">
+                                        {calcMode === "have" ? "Bank Points" : `${airline.award} Goal`}
+                                    </label>
+
+                                    {/* 🟢 EDITED: Controlled Input using hook state */}
+                                    <input
+                                        type="text"
+                                        value={pointsAmount}
+                                        onClick={(e) => e.stopPropagation()}
+                                        onChange={(e) => setPointsAmount(e.target.value)}
+                                        className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs font-bold outline-none focus:ring-1 focus:ring-blue-500"
+                                    />
+
+                                    <div className="pt-1 border-t border-blue-100 dark:border-blue-800/50">
+                                        <div className="text-[11px] font-black text-slate-900 dark:text-white">
+                                            {/* 🟢 EDITED: Dynamic calculation call using current partner 'p' data */}
+                                            {calcMode === "have" ? (
+                                                <>
+                                                    = {calculateTransfer(p.ratio, p.bonus).toLocaleString()} {airline.award}
+                                                </>
+                                            ) : (
+                                                <>
+                                                    Requires {calculateRequired(p.ratio, p.bonus).toLocaleString()} {p.bank} Points
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
 					</div>
 				))}
 			</div>
