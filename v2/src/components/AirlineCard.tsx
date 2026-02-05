@@ -116,8 +116,7 @@ export default function AirlineCard({
 				className={`flex flex-wrap gap-2 ${
 					isGridView
 						? "mt-6"
-						: /* Mobile: margin-top | Desktop: align right in list view */
-							"mt-4 md:mt-0 justify-start md:justify-end ml-0 md:ml-auto w-full md:w-auto"
+						: "mt-4 md:mt-0 justify-start md:justify-end ml-0 md:ml-auto w-full md:w-auto"
 				}`}
 			>
 				{airline.partners?.map((p: any, i: number) => (
