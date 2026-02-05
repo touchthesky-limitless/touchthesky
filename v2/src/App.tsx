@@ -33,8 +33,6 @@ export default function App() {
 		setSearch,
 		activeBanks,
 		activeAlliances,
-		showOnlyBonuses,
-		setShowOnlyBonuses,
 		isDark,
 		toggleBank,
 		toggleAlliance,
@@ -85,15 +83,7 @@ export default function App() {
 						{/* 3. Show Airlines (Home) */}
 						{view === "home" && (
 							<div className="animate-in fade-in duration-500">
-								<SearchFilters
-									banks={banks}
-									activeBanks={activeBanks}
-									activeAlliances={activeAlliances}
-									showOnlyBonuses={showOnlyBonuses}
-									setShowOnlyBonuses={setShowOnlyBonuses}
-									toggleBank={toggleBank}
-									toggleAlliance={toggleAlliance}
-								/>
+								<SearchFilters />
 								{/* Insights Stats Bar */}
 								<StatsBar onOpenDashboard={() => setIsDashboardOpen(true)} />
 								{/* Controls Row */}
