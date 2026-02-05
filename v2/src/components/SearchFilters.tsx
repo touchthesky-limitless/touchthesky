@@ -1,25 +1,17 @@
-import type { Bank } from "../types";
 import { ALLIANCE_NAMES } from "../config";
 import { ALLIANCE_LOGOS } from "../config";
 import { BankLogo } from "./BankLogo";
+import { useAirlines } from "../hooks/useAirlines";
 
-interface SearchFiltersProps {
-	banks: Bank[];
-	activeBanks: string[];
-	toggleBank: (id: string) => void;
-	activeAlliances: string[];
-	toggleAlliance: (name: string) => void;
-	showOnlyBonuses: boolean;
-	setShowOnlyBonuses: (val: boolean) => void;
-}
+export default function SearchFilters() {
+	const {
+		banks,
+		activeBanks,
+		toggleBank,
+		activeAlliances,
+		toggleAlliance,
+	} = useAirlines();
 
-export default function SearchFilters({
-	banks,
-	activeBanks,
-	toggleBank,
-	activeAlliances,
-	toggleAlliance,
-}: SearchFiltersProps) {
 	return (
 		<div className="space-y-6 animate-in fade-in slide-in-from-top-4 duration-700">
 			{/* Bank Icons */}
@@ -76,7 +68,7 @@ export default function SearchFilters({
 							{ALLIANCE_LOGOS?.[name] ? (
 								<img
 									src={ALLIANCE_LOGOS[name]}
-									className="w-3.5 h-3.5 object-contain flex-shrink-0 transition-all"
+									className='alliance-logo-canvas w-3.5 h-3.5 object-contain flex-shrink-0 transition-all'
 									alt=""
 								/>
 							) : (

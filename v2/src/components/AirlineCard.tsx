@@ -100,7 +100,7 @@ export default function AirlineCard({
 						{ALLIANCE_LOGOS?.[airline.alliance] && (
 							<img
 								src={ALLIANCE_LOGOS[airline.alliance]}
-								className="w-4 h-4"
+								className="w-4 h-4 alliance-logo-canvas"
 								alt=""
 							/>
 						)}
