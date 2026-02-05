@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: v2/package-lock.json
 
       - name: Install and Build v2 (React)
@@ -36,5 +36,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: public_site             # Deploy this specific combined folder
-          branch: gh-pages                # The branch GitHub Pages will serve from
+          folder: public_site # Deploy this specific combined folder
+          branch: gh-pages # The branch GitHub Pages will serve from

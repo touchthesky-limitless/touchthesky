@@ -1,83 +1,83 @@
 export interface Bank {
-  id: string;
-  name: string;
-  domain: string;
-  bg: string;
-  text: string;
-  logoOverride: string;
+	id: string;
+	name: string;
+	domain: string;
+	bg: string;
+	text: string;
+	logoOverride: string;
 }
 
 export const BANKS: Bank[] = [
-  {
-    id: "amex",
-    name: "American Express",
-    domain: "americanexpress.com",
-    bg: "bg-[#006fcf]",
-    text: "text-white",
-    logoOverride: ""
-  },
-  {
-    id: "chase",
-    name: "Chase",
-    domain: "chase.com",
-    bg: "bg-[#117aca]",
-    text: "text-white",
-    logoOverride: ""
-  },
-  {
-    id: "capitalone",
-    name: "Capital One",
-    domain: "capitalone.com",
-    bg: "bg-[#d03027]",
-    text: "text-white",
-    logoOverride: "https://icons.duckduckgo.com/ip3/www.capitalone.com.ico"
-  },
-  {
-    id: "citi",
-    name: "Citi",
-    domain: "citi.com",
-    bg: "bg-[#056dae]",
-    text: "text-white",
-    logoOverride: ""
-  },
-  {
-    id: "wellsfargo",
-    name: "Wells Fargo",
-    domain: "wellsfargo.com",
-    bg: "bg-[#d71e28]",
-    text: "text-white",
-    logoOverride: ""
-  },
-  {
-    id: "bilt",
-    name: "Bilt",
-    domain: "biltrewards.com",
-    bg: "bg-[#0d1825]",
-    text: "text-white",
-    logoOverride: ""
-  },
-  {
-    id: "avios",
-    name: "Avios",
-    domain: "avios.com",
-    bg: "bg-[#1b36b4]",
-    text: "text-white",
-    logoOverride: ""
-  },
-  {
-    id: "rove",
-    name: "Rove",
-    domain: "rovemiles.com",
-    bg: "bg-[#0d1825]",
-    text: "text-white",
-    logoOverride: ""
-  },
-  {
-    id: "marriott",
-    name: "Marriott Bonvoy",
-    domain: "marriott.com",
-    bg: "bg-[#fe8c6b]",
-    text: "text-white",
-    logoOverride: ""
-  }
+	{
+		id: "amex",
+		name: "American Express",
+		domain: "americanexpress.com",
+		bg: "bg-[#006fcf]",
+		text: "text-white",
+		logoOverride: "",
+	},
+	{
+		id: "chase",
+		name: "Chase",
+		domain: "chase.com",
+		bg: "bg-[#117aca]",
+		text: "text-white",
+		logoOverride: "",
+	},
+	{
+		id: "capitalone",
+		name: "Capital One",
+		domain: "capitalone.com",
+		bg: "bg-[#d03027]",
+		text: "text-white",
+		logoOverride: "https://icons.duckduckgo.com/ip3/www.capitalone.com.ico",
+	},
+	{
+		id: "citi",
+		name: "Citi",
+		domain: "citi.com",
+		bg: "bg-[#056dae]",
+		text: "text-white",
+		logoOverride: "",
+	},
+	{
+		id: "wellsfargo",
+		name: "Wells Fargo",
+		domain: "wellsfargo.com",
+		bg: "bg-[#d71e28]",
+		text: "text-white",
+		logoOverride: "",
+	},
+	{
+		id: "bilt",
+		name: "Bilt",
+		domain: "biltrewards.com",
+		bg: "bg-[#0d1825]",
+		text: "text-white",
+		logoOverride: "",
+	},
+	{
+		id: "avios",
+		name: "Avios",
+		domain: "avios.com",
+		bg: "bg-[#1b36b4]",
+		text: "text-white",
+		logoOverride: "",
+	},
+	{
+		id: "rove",
+		name: "Rove",
+		domain: "rovemiles.com",
+		bg: "bg-[#0d1825]",
+		text: "text-white",
+		logoOverride: "",
+	},
+	{
+		id: "marriott",
+		name: "Marriott Bonvoy",
+		domain: "marriott.com",
+		bg: "bg-[#fe8c6b]",
+		text: "text-white",
+		logoOverride: "",
+	},
 ];
