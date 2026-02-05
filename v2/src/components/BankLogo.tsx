@@ -9,28 +9,29 @@ interface BankLogoProps {
 }
 
 export const BankLogo = ({ bankId, airline, className = "w-6 h-6" }: BankLogoProps) => {
-	const { banks } = useAirlines(); // 🟢 Get data from context
-	const { getBankLogo } = useGetAirlineLogos(airline, banks);
+    const { banks } = useAirlines();
+    const { getBankLogo } = useGetAirlineLogos(airline, banks);
 
-	if (!bankId) return null;
+    if (!bankId) return null;
 
-	const logoSrc = getBankLogo(bankId);
-	const fallbackIcon = `https://ui-avatars.com/api/?name=${encodeURIComponent(bankId)}&background=random`;
+    const logoSrc = getBankLogo(bankId);
 
-	return (
-		<div
-			className={`${className} flex items-center justify-center overflow-hidden rounded-md`}
-		>
-			<img
-				src={logoSrc}
-				className="w-full h-full object-contain"
-				alt={`${bankId} logo`}
-				loading="lazy"
-				onError={(e) => {
-					// If Google Favicon fails, swap to the fallback initials
-					(e.target as HTMLImageElement).src = fallbackIcon;
-				}}
-			/>
-		</div>
-	);
+    return (
+        <div className={`${className} flex items-center justify-center overflow-hidden rounded-md bg-white shadow-sm`}>
+            {/* 🟢 If logoSrc is undefined, we don't render the img to avoid the console warning */}
+            {logoSrc && (
+                <img
+                    src={logoSrc}
+                    className="w-full h-full object-contain"
+                    alt={`${bankId} logo`}
+                    loading="lazy"
+                    /* 🟢 We only need onError if we want a SECONDARY fallback 
+                       (e.g. if the URL returned by the hook actually 404s) */
+                    onError={(e) => {
+                        (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${bankId}`;
+                    }}
+                />
+            )}
+        </div>
+    );
 };

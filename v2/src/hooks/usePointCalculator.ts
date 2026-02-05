@@ -10,7 +10,7 @@ const parseCalcInputs = (valStr: string, ratioStr: string) => {
 };
 
 export const usePointCalculator = () => {
-    const [pointsAmount, setPointsAmount] = useState<string>("1000");
+    const [pointsAmount, setPointsAmount] = useState<string>("1,000");
     const [calcMode, setCalcMode] = useState<"have" | "need">("have");
 
     /**
