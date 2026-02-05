@@ -2,7 +2,8 @@ export interface Partner {
 	bank: string;
 	ratio: string;
 	time: string;
-	bonus?: number;
+	bonusAmount?: number;
+	bonusEnds?: string;
 }
 
 export interface Airline {

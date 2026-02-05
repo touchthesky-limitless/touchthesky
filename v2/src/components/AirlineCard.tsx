@@ -134,55 +134,66 @@ export default function AirlineCard({
 
 						{/* Calculator UI */}
 						{calcPartner === p.bank && (
-                            <div className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl animate-in fade-in zoom-in-95 duration-200">
-                                <div className="flex flex-col gap-2 min-w-[160px]">
-                                    
-                                    {/* 🟢 EDITED: Mode Toggle Buttons */}
-                                    <div className="flex bg-blue-100 dark:bg-slate-800 p-0.5 rounded-lg mb-1">
-                                        <button
-                                            onClick={(e) => { e.stopPropagation(); setCalcMode("have"); }}
-                                            className={`flex-1 text-[8px] uppercase font-black py-1 px-2 rounded-md transition-all cursor-pointer ${calcMode === "have" ? "bg-white dark:bg-blue-600 shadow-sm text-blue-600 dark:text-white" : "text-slate-500"}`}
-                                        >
-                                            I Have
-                                        </button>
-                                        <button
-                                            onClick={(e) => { e.stopPropagation(); setCalcMode("need"); }}
-                                            className={`flex-1 text-[8px] uppercase font-black py-1 px-2 rounded-md transition-all cursor-pointer ${calcMode === "need" ? "bg-white dark:bg-blue-600 shadow-sm text-blue-600 dark:text-white" : "text-slate-500"}`}
-                                        >
-                                            I Need
-                                        </button>
-                                    </div>
+							<div className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl animate-in fade-in zoom-in-95 duration-200">
+								<div className="flex flex-col gap-2 min-w-[160px]">
+									{/* 🟢 EDITED: Mode Toggle Buttons */}
+									<div className="flex bg-blue-100 dark:bg-slate-800 p-0.5 rounded-lg mb-1">
+										<button
+											onClick={(e) => {
+												e.stopPropagation();
+												setCalcMode("have");
+											}}
+											className={`flex-1 text-[8px] uppercase font-black py-1 px-2 rounded-md transition-all cursor-pointer ${calcMode === "have" ? "bg-white dark:bg-blue-600 shadow-sm text-blue-600 dark:text-white" : "text-slate-500"}`}
+										>
+											I Have
+										</button>
+										<button
+											onClick={(e) => {
+												e.stopPropagation();
+												setCalcMode("need");
+											}}
+											className={`flex-1 text-[8px] uppercase font-black py-1 px-2 rounded-md transition-all cursor-pointer ${calcMode === "need" ? "bg-white dark:bg-blue-600 shadow-sm text-blue-600 dark:text-white" : "text-slate-500"}`}
+										>
+											I Need
+										</button>
+									</div>
 
-                                    <label className="text-[9px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">
-                                        {calcMode === "have" ? "Bank Points" : `${airline.award} Goal`}
-                                    </label>
+									<label className="text-[9px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">
+										{calcMode === "have"
+											? "Bank Points"
+											: `${airline.award} Goal`}
+									</label>
 
-                                    {/* 🟢 EDITED: Controlled Input using hook state */}
-                                    <input
-                                        type="text"
-                                        value={pointsAmount}
-                                        onClick={(e) => e.stopPropagation()}
-                                        onChange={(e) => setPointsAmount(e.target.value)}
-                                        className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs font-bold outline-none focus:ring-1 focus:ring-blue-500"
-                                    />
+									{/* 🟢 EDITED: Controlled Input using hook state */}
+									<input
+										type="text"
+										value={pointsAmount}
+										onClick={(e) => e.stopPropagation()}
+										onChange={(e) => setPointsAmount(e.target.value)}
+										className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs font-bold outline-none focus:ring-1 focus:ring-blue-500"
+									/>
 
-                                    <div className="pt-1 border-t border-blue-100 dark:border-blue-800/50">
-                                        <div className="text-[11px] font-black text-slate-900 dark:text-white">
-                                            {/* 🟢 EDITED: Dynamic calculation call using current partner 'p' data */}
-                                            {calcMode === "have" ? (
-                                                <>
-                                                    = {calculateTransfer(p.ratio, p.bonus).toLocaleString()} {airline.award}
-                                                </>
-                                            ) : (
-                                                <>
-                                                    Requires {calculateRequired(p.ratio, p.bonus).toLocaleString()} {p.bank} Points
-                                                </>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
+									<div className="pt-1 border-t border-blue-100 dark:border-blue-800/50">
+										<div className="text-[11px] font-black text-slate-900 dark:text-white">
+											{/* 🟢 EDITED: Dynamic calculation call using current partner 'p' data */}
+											{calcMode === "have" ? (
+												<>
+													={" "}
+													{calculateTransfer(p.ratio, p.bonus).toLocaleString()}{" "}
+													{airline.award}
+												</>
+											) : (
+												<>
+													Requires{" "}
+													{calculateRequired(p.ratio, p.bonus).toLocaleString()}{" "}
+													{p.bank} Points
+												</>
+											)}
+										</div>
+									</div>
+								</div>
+							</div>
+						)}
 					</div>
 				))}
 			</div>
