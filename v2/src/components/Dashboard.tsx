@@ -23,10 +23,17 @@ export default function Dashboard({ onClose }: DashboardProps) {
 			initial={{ y: "100%" }}
 			animate={{ y: 0 }}
 			exit={{ y: "100%" }}
-			transition={{ type: "spring", damping: 25, stiffness: 200 }}
+			/* 🟢 The 'Spring' Magic */
+			transition={{
+				type: "spring",
+				damping: 30, // 📍 Higher = less "infinite" wobbling
+				stiffness: 300, // 📍 Higher = faster initial snap
+				mass: 0.8, // 📍 Lower = feels lighter/snappier
+				velocity: 2, // 📍 Initial momentum
+			}}
 			drag="y"
 			dragConstraints={{ top: 0, bottom: 0 }}
-			dragElastic={0.1}
+			dragElastic={0.6}
 			onDragEnd={(_, info) => {
 				if (info.offset.y > 100) onClose();
 			}}
