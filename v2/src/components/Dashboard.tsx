@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useAirlines } from "../hooks/useAirlines";
 import SweetSpot from "./SweetSpot";
+import RouteHeatmap from "./RouteHeatmap";
 
 interface DashboardProps {
 	onClose: () => void;
@@ -62,6 +63,14 @@ export default function Dashboard({ onClose }: DashboardProps) {
 					</button>
 				</div>
 
+				{/* Heatmap Component */}
+				<div className="space-y-6">
+					<RouteHeatmap />
+				</div>
+
+				{/* Sweet Spot Section */}
+				<SweetSpot />
+
 				{/* Main Stats Grid */}
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 					<div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm">
@@ -100,9 +109,6 @@ export default function Dashboard({ onClose }: DashboardProps) {
 						</p>
 					</div>
 				</div>
-
-				{/* 🟢 NEW: Sweet Spot Section */}
-				<SweetSpot />
 
 				{/* Banking Ecosystem Section */}
 				<div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm">

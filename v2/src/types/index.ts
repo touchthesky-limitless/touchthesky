@@ -13,10 +13,14 @@ export interface Airline {
 	iata: string;
 	domain: string;
 	alliance: string;
+	region: string;
 	bookable: string;
 	featured?: boolean;
 	logo?: string;
 	partners: Partner[];
+	popularity?: number; // 0 to 100
+    tier?: "Tier 1" | "Tier 2" | "Tier 3" | "Unranked";
+	minPoints?: number;
 }
 
 export interface Bank {
