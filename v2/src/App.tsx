@@ -16,6 +16,7 @@ import CPPCalculator from "./components/CPPCalculator";
 import ValuationService from "./components/ValuationService";
 import Dashboard from "./components/Dashboard";
 import StatsBar from "./components/StatsBar";
+import { motion, AnimatePresence } from "motion/react";
 
 export default function App() {
 	const isHeaderVisible = useHeaderVisible();
@@ -151,25 +152,24 @@ export default function App() {
 									) : (
 										<EmptyState onClear={() => handleGlobalReset(true)} />
 									)}
-									{/* 4. The Dashboard Drawer (Overlay) */}
-									{isDashboardOpen && (
-										<div className="fixed inset-0 z-[100] flex flex-col justify-end bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-											<div
-												className="absolute inset-0"
-												onClick={() => setIsDashboardOpen(false)}
-											/>
-											<div className="relative bg-slate-50 dark:bg-slate-950 rounded-t-[3rem] p-6 max-h-[85vh] overflow-y-auto shadow-2xl animate-in slide-in-from-bottom-full duration-500">
-												<div className="w-12 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto mb-6" />
-												<Dashboard />
-												<button
+									{/* 🟢 4. The Dashboard Drawer (Overlay) */}
+									<AnimatePresence>
+										{isDashboardOpen && (
+											<>
+												{/* 📍 Clean Backdrop: Only handles the dimming effect */}
+												<motion.div
+													initial={{ opacity: 0 }}
+													animate={{ opacity: 1 }}
+													exit={{ opacity: 0 }}
 													onClick={() => setIsDashboardOpen(false)}
-													className="cursor-pointer w-full mt-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase tracking-widest text-xs"
-												>
-													Close Insights
-												</button>
-											</div>
-										</div>
-									)}
+													className="fixed inset-0 z-[90] bg-black/40 backdrop-blur-[2px] cursor-pointer"
+												/>
+
+												{/* 📍 The Dashboard: It handles its own fixed positioning and animation */}
+												<Dashboard onClose={() => setIsDashboardOpen(false)} />
+											</>
+										)}
+									</AnimatePresence>
 								</div>
 							</div>
 						)}
