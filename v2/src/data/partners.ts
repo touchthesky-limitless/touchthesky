@@ -1,20 +1,4 @@
-export interface TransferPartner {
-	bank: string;
-	ratio: string;
-	time: string;
-	bonus?: number;
-}
-
-export interface Airline {
-	name: string;
-	award: string;
-	iata: string;
-	domain: string;
-	alliance: "Star Alliance" | "SkyTeam" | "Oneworld" | "No Alliance" | "Hotels";
-	bookable: string;
-	featured: boolean;
-	partners: TransferPartner[];
-}
+import type { Airline } from "../types";
 
 export const AIRLINES: Airline[] = [
 	{
@@ -26,11 +10,11 @@ export const AIRLINES: Airline[] = [
 		bookable: "CX, EI, EK, EY, G3, VA",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:1", time: "Instant" },
-			{ bank: "chase", ratio: "1:1", time: "Instant" },
-			{ bank: "capitalone", ratio: "1:1", time: "Instant" },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "chase", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -42,13 +26,13 @@ export const AIRLINES: Airline[] = [
 		bookable: "AZ, CM, EY, G3, JL, WS, VS",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:1", time: "Instant" },
-			{ bank: "chase", ratio: "1:1", time: "Instant" },
-			{ bank: "citi", ratio: "1:1", time: "Instant" },
-			{ bank: "capitalone", ratio: "1:1", time: "Instant" },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
-			{ bank: "wellsfargo", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "chase", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "citi", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "wellsfargo", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -60,8 +44,8 @@ export const AIRLINES: Airline[] = [
 		bookable: "DE, EI, HU, JX, KE, LA, LY, SQ",
 		featured: false,
 		partners: [
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -73,8 +57,8 @@ export const AIRLINES: Airline[] = [
 		bookable: "",
 		featured: false,
 		partners: [
-			{ bank: "citi", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "citi", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -86,12 +70,18 @@ export const AIRLINES: Airline[] = [
 		bookable: "",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:1", time: "Instant" },
-			{ bank: "citi", ratio: "1:1", time: "Instant" },
-			{ bank: "capitalone", ratio: "1:1", time: "Instant", bonus: 15 },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
-			{ bank: "wellsfargo", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "citi", ratio: "1:1", transferTime: "Instant" },
+			{
+				bank: "capitalone",
+				ratio: "1:1",
+				transferTime: "Instant",
+				bonusAmount: 15,
+				bonusEnds: "02/11/2026",
+			},
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "wellsfargo", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -103,13 +93,13 @@ export const AIRLINES: Airline[] = [
 		bookable: "LA, LY",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:1", time: "Instant" },
-			{ bank: "chase", ratio: "1:1", time: "Instant" },
-			{ bank: "capitalone", ratio: "1:1", time: "Instant" },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
-			{ bank: "avios", ratio: "1:1", time: "Instant" },
-			{ bank: "wellsfargo", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "chase", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "avios", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "wellsfargo", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -121,9 +111,15 @@ export const AIRLINES: Airline[] = [
 		bookable: "AF",
 		featured: true,
 		partners: [
-			{ bank: "capitalone", ratio: "1:0.75", time: "Instant", bonus: 30 },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{
+				bank: "capitalone",
+				ratio: "1:0.75",
+				transferTime: "Instant",
+				bonusAmount: 30,
+				bonusEnds: "02/28/2026",
+			},
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -135,11 +131,11 @@ export const AIRLINES: Airline[] = [
 		bookable: "LA",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:1", time: "24 hrs" },
-			{ bank: "citi", ratio: "1:1", time: "24 hrs" },
-			{ bank: "capitalone", ratio: "1:1", time: "Instant" },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "amex", ratio: "1:1", transferTime: "24 hrs" },
+			{ bank: "citi", ratio: "1:1", transferTime: "24 hrs" },
+			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -151,8 +147,8 @@ export const AIRLINES: Airline[] = [
 		bookable: "AZ, HA, LA, LY",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -164,11 +160,11 @@ export const AIRLINES: Airline[] = [
 		bookable: "A3, DE, JL, UA",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:0.8", time: "Instant" },
-			{ bank: "citi", ratio: "1:0.8", time: "Instant" },
-			{ bank: "capitalone", ratio: "1:1", time: "Instant" },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "amex", ratio: "1:0.8", transferTime: "Instant" },
+			{ bank: "citi", ratio: "1:0.8", transferTime: "Instant" },
+			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -180,10 +176,10 @@ export const AIRLINES: Airline[] = [
 		bookable: "AA, AC, B6, EL, OZ",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:1", time: "Instant" },
-			{ bank: "citi", ratio: "1:1", time: "Instant" },
-			{ bank: "capitalone", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "citi", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -194,7 +190,7 @@ export const AIRLINES: Airline[] = [
 		alliance: "No Alliance",
 		bookable: "",
 		featured: false,
-		partners: [{ bank: "marriott", ratio: "3:1", time: "Instant" }],
+		partners: [{ bank: "marriott", ratio: "3:1", transferTime: "Instant" }],
 	},
 	{
 		name: "China Southern",
@@ -204,7 +200,7 @@ export const AIRLINES: Airline[] = [
 		alliance: "No Alliance",
 		bookable: "",
 		featured: false,
-		partners: [{ bank: "marriott", ratio: "3:1", time: "Instant" }],
+		partners: [{ bank: "marriott", ratio: "3:1", transferTime: "Instant" }],
 	},
 	{
 		name: "Hainan Airlines",
@@ -215,8 +211,8 @@ export const AIRLINES: Airline[] = [
 		bookable: "",
 		featured: true,
 		partners: [
-			{ bank: "rove", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "rove", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -227,7 +223,7 @@ export const AIRLINES: Airline[] = [
 		alliance: "No Alliance",
 		bookable: "DL",
 		featured: false,
-		partners: [{ bank: "marriott", ratio: "3:1", time: "Instant" }],
+		partners: [{ bank: "marriott", ratio: "3:1", transferTime: "Instant" }],
 	},
 	{
 		name: "Virgin Australia Airlines",
@@ -237,7 +233,7 @@ export const AIRLINES: Airline[] = [
 		alliance: "No Alliance",
 		bookable: "AC, AS, EY, HA, NH, QR, SQ, VS, UA",
 		featured: false,
-		partners: [{ bank: "marriott", ratio: "3:1", time: "Instant" }],
+		partners: [{ bank: "marriott", ratio: "3:1", transferTime: "Instant" }],
 	},
 	{
 		name: "Iberia",
@@ -248,12 +244,12 @@ export const AIRLINES: Airline[] = [
 		bookable: "LA, LY",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:1", time: "Instant" },
-			{ bank: "chase", ratio: "1:1", time: "Instant" },
-			{ bank: "avios", ratio: "1:1", time: "Instant" },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
-			{ bank: "wellsfargo", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "chase", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "avios", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "wellsfargo", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -265,11 +261,11 @@ export const AIRLINES: Airline[] = [
 		bookable: "HA, EI",
 		featured: false,
 		partners: [
-			{ bank: "chase", ratio: "1:1", time: "Instant" },
-			{ bank: "citi", ratio: "1:1", time: "Instant" },
-			{ bank: "amex", ratio: "1:0.8", time: "Instant" },
-			{ bank: "capitalone", ratio: "1:0.6", time: "Instant" },
-			{ bank: "wellsfargo", ratio: "1:1", time: "Instant" },
+			{ bank: "chase", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "citi", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "amex", ratio: "1:0.8", transferTime: "Instant" },
+			{ bank: "capitalone", ratio: "1:0.6", transferTime: "Instant" },
+			{ bank: "wellsfargo", ratio: "1:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -281,10 +277,10 @@ export const AIRLINES: Airline[] = [
 		bookable: "CI, EK, LA, LY",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:1", time: "Instant" },
-			{ bank: "citi", ratio: "1:1", time: "Instant" },
-			{ bank: "capitalone", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "citi", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -296,11 +292,11 @@ export const AIRLINES: Airline[] = [
 		bookable: "B6, LY",
 		featured: false,
 		partners: [
-			{ bank: "citi", ratio: "1:1", time: "Instant" },
-			{ bank: "amex", ratio: "1:1", time: "Instant" },
-			{ bank: "capitalone", ratio: "1:1", time: "Instant" },
-			{ bank: "avios", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "citi", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "avios", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -312,9 +308,9 @@ export const AIRLINES: Airline[] = [
 		bookable: "",
 		featured: false,
 		partners: [
-			{ bank: "avios", ratio: "1:1", time: "Instant" },
-			{ bank: "capitalone", ratio: "1:1", time: "Instant" },
-			{ bank: "rove", ratio: "1:1", time: "Instant" },
+			{ bank: "avios", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "rove", ratio: "1:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -326,11 +322,11 @@ export const AIRLINES: Airline[] = [
 		bookable: "AS",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:1", time: "12-24 hrs" },
-			{ bank: "chase", ratio: "1:1", time: "12-24 hrs" },
-			{ bank: "citi", ratio: "1:1", time: "24 hrs" },
-			{ bank: "capitalone", ratio: "1:1", time: "24 hrs" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "amex", ratio: "1:1", transferTime: "12-24 hrs" },
+			{ bank: "chase", ratio: "1:1", transferTime: "12-24 hrs" },
+			{ bank: "citi", ratio: "1:1", transferTime: "24 hrs" },
+			{ bank: "capitalone", ratio: "1:1", transferTime: "24 hrs" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -342,9 +338,9 @@ export const AIRLINES: Airline[] = [
 		bookable: "CI, FI",
 		featured: false,
 		partners: [
-			{ bank: "chase", ratio: "1:1", time: "Instant" },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "chase", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -356,12 +352,12 @@ export const AIRLINES: Airline[] = [
 		bookable: "AA, AC, AS, BA, B6, EY, IB, UA",
 		featured: false,
 		partners: [
-			{ bank: "chase", ratio: "1:1", time: "Instant" },
-			{ bank: "amex", ratio: "1:1", time: "Instant" },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
-			{ bank: "wellsfargo", ratio: "1:1", time: "Instant" },
-			{ bank: "avios", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "chase", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "wellsfargo", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "avios", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -373,8 +369,8 @@ export const AIRLINES: Airline[] = [
 		bookable: "",
 		featured: false,
 		partners: [
-			{ bank: "avios", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "avios", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -386,11 +382,11 @@ export const AIRLINES: Airline[] = [
 		bookable: "",
 		featured: false,
 		partners: [
-			{ bank: "citi", ratio: "1:1", time: "1-2 days" },
-			{ bank: "capitalone", ratio: "1:1", time: "Instant" },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
-			{ bank: "rove", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "citi", ratio: "1:1", transferTime: "1-2 days" },
+			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "rove", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -402,9 +398,9 @@ export const AIRLINES: Airline[] = [
 		bookable: "E1, EK, VA",
 		featured: false,
 		partners: [
-			{ bank: "chase", ratio: "1:1", time: "Instant" },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "chase", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -415,7 +411,7 @@ export const AIRLINES: Airline[] = [
 		alliance: "Star Alliance",
 		bookable: "",
 		featured: false,
-		partners: [{ bank: "marriott", ratio: "3:1", time: "Instant" }],
+		partners: [{ bank: "marriott", ratio: "3:1", transferTime: "Instant" }],
 	},
 	{
 		name: "Air India",
@@ -425,7 +421,7 @@ export const AIRLINES: Airline[] = [
 		alliance: "Star Alliance",
 		bookable: "",
 		featured: false,
-		partners: [{ bank: "rove", ratio: "1:1", time: "Instant" }],
+		partners: [{ bank: "rove", ratio: "1:1", transferTime: "Instant" }],
 	},
 	{
 		name: "Air New Zealand",
@@ -435,7 +431,7 @@ export const AIRLINES: Airline[] = [
 		alliance: "Star Alliance",
 		bookable: "VS",
 		featured: false,
-		partners: [{ bank: "marriott", ratio: "200:1", time: "Instant" }],
+		partners: [{ bank: "marriott", ratio: "200:1", transferTime: "Instant" }],
 	},
 	{
 		name: "Asiana Airlines",
@@ -445,7 +441,7 @@ export const AIRLINES: Airline[] = [
 		alliance: "Star Alliance",
 		bookable: "",
 		featured: false,
-		partners: [{ bank: "marriott", ratio: "200:1", time: "Instant" }],
+		partners: [{ bank: "marriott", ratio: "200:1", transferTime: "Instant" }],
 	},
 	{
 		name: "Copa Airlines",
@@ -455,7 +451,7 @@ export const AIRLINES: Airline[] = [
 		alliance: "Star Alliance",
 		bookable: "",
 		featured: false,
-		partners: [{ bank: "marriott", ratio: "3:1", time: "Instant" }],
+		partners: [{ bank: "marriott", ratio: "3:1", transferTime: "Instant" }],
 	},
 	{
 		name: "EVA Air",
@@ -466,8 +462,8 @@ export const AIRLINES: Airline[] = [
 		bookable: "",
 		featured: false,
 		partners: [
-			{ bank: "citi", ratio: "1:1", time: "Instant" },
-			{ bank: "capitalone", ratio: "1:0.75", time: "Instant" },
+			{ bank: "citi", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "capitalone", ratio: "1:0.75", transferTime: "Instant" },
 		],
 	},
 	{
@@ -478,7 +474,7 @@ export const AIRLINES: Airline[] = [
 		alliance: "Star Alliance",
 		bookable: "",
 		featured: false,
-		partners: [{ bank: "rove", ratio: "1:1", time: "Instant" }],
+		partners: [{ bank: "rove", ratio: "1:1", transferTime: "Instant" }],
 	},
 	{
 		name: "All Nippon Airways",
@@ -489,8 +485,8 @@ export const AIRLINES: Airline[] = [
 		bookable: "VS",
 		featured: true,
 		partners: [
-			{ bank: "amex", ratio: "1:1", time: "12-24 hrs" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "amex", ratio: "1:1", transferTime: "12-24 hrs" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -501,7 +497,7 @@ export const AIRLINES: Airline[] = [
 		alliance: "Star Alliance",
 		bookable: "",
 		featured: false,
-		partners: [{ bank: "marriott", ratio: "3:1", time: "Instant" }],
+		partners: [{ bank: "marriott", ratio: "3:1", transferTime: "Instant" }],
 	},
 	{
 		name: "TAP Air Portugal",
@@ -512,9 +508,9 @@ export const AIRLINES: Airline[] = [
 		bookable: "B6",
 		featured: false,
 		partners: [
-			{ bank: "capitalone", ratio: "1:1", time: "Instant" },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -526,9 +522,9 @@ export const AIRLINES: Airline[] = [
 		bookable: "B6",
 		featured: false,
 		partners: [
-			{ bank: "citi", ratio: "1:1", time: "Instant" },
-			{ bank: "rove", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "citi", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "rove", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -539,7 +535,7 @@ export const AIRLINES: Airline[] = [
 		alliance: "SkyTeam",
 		bookable: "AF, DL, NH",
 		featured: true,
-		partners: [{ bank: "rove", ratio: "1:1", time: "Instant" }],
+		partners: [{ bank: "rove", ratio: "1:1", transferTime: "Instant" }],
 	},
 	{
 		name: "Saudia Airlines",
@@ -549,7 +545,7 @@ export const AIRLINES: Airline[] = [
 		alliance: "SkyTeam",
 		bookable: "AF, DL, NH",
 		featured: false,
-		partners: [{ bank: "marriott", ratio: "3:1", time: "Instant" }],
+		partners: [{ bank: "marriott", ratio: "3:1", transferTime: "Instant" }],
 	},
 	{
 		name: "Korean Air",
@@ -559,7 +555,7 @@ export const AIRLINES: Airline[] = [
 		alliance: "SkyTeam",
 		bookable: "AS, HA, EK, EY",
 		featured: true,
-		partners: [{ bank: "marriott", ratio: "3:1", time: "Instant" }],
+		partners: [{ bank: "marriott", ratio: "3:1", transferTime: "Instant" }],
 	},
 	{
 		name: "AeroMexico",
@@ -570,11 +566,11 @@ export const AIRLINES: Airline[] = [
 		bookable: "G3, LY",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:1.6", time: "Instant" },
-			{ bank: "citi", ratio: "1:1", time: "Instant" },
-			{ bank: "capitalone", ratio: "1:1", time: "Instant" },
-			{ bank: "rove", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "amex", ratio: "1:1.6", transferTime: "Instant" },
+			{ bank: "citi", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "rove", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -586,12 +582,12 @@ export const AIRLINES: Airline[] = [
 		bookable: "AZ, HA, LA, LY, NH, NZ, SA, SQ, SK, VA",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:1", time: "Instant" },
-			{ bank: "chase", ratio: "1:1", time: "Instant" },
-			{ bank: "citi", ratio: "1:1", time: "Instant" },
-			{ bank: "capitalone", ratio: "1:1", time: "Instant" },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
-			{ bank: "marriott", ratio: "3:1", time: "Instant" },
+			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "chase", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "citi", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -603,8 +599,8 @@ export const AIRLINES: Airline[] = [
 		bookable: "",
 		featured: false,
 		partners: [
-			{ bank: "chase", ratio: "1:1", time: "Instant" },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
+			{ bank: "chase", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -616,8 +612,8 @@ export const AIRLINES: Airline[] = [
 		bookable: "",
 		featured: false,
 		partners: [
-			{ bank: "chase", ratio: "1:1", time: "Instant" },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
+			{ bank: "chase", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -629,9 +625,15 @@ export const AIRLINES: Airline[] = [
 		bookable: "",
 		featured: false,
 		partners: [
-			{ bank: "chase", ratio: "1:1", time: "Instant", bonus: 50 },
-			{ bank: "amex", ratio: "1:1", time: "Instant" },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
+			{
+				bank: "chase",
+				ratio: "1:1",
+				transferTime: "Instant",
+				bonusAmount: 50,
+				bonusEnds: "02/28/2026",
+			},
+			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -643,8 +645,8 @@ export const AIRLINES: Airline[] = [
 		bookable: "",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:2", time: "Instant" },
-			{ bank: "bilt", ratio: "1:1", time: "Instant" },
+			{ bank: "amex", ratio: "1:2", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
 		],
 	},
 	{
@@ -656,10 +658,10 @@ export const AIRLINES: Airline[] = [
 		bookable: "",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:1", time: "Instant" },
-			{ bank: "citi", ratio: "1:2", time: "Instant" },
-			{ bank: "capitalone", ratio: "1:1", time: "Instant" },
-			{ bank: "wellsfargo", ratio: "1:2", time: "Instant" },
+			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "citi", ratio: "1:2", transferTime: "Instant" },
+			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "wellsfargo", ratio: "1:2", transferTime: "Instant" },
 		],
 	},
 	{
@@ -671,8 +673,8 @@ export const AIRLINES: Airline[] = [
 		bookable: "",
 		featured: false,
 		partners: [
-			{ bank: "capitalone", ratio: "1:1", time: "Instant" },
-			{ bank: "citi", ratio: "1:2", time: "Instant" },
+			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "citi", ratio: "1:2", transferTime: "Instant" },
 		],
 	},
 	{
@@ -684,10 +686,10 @@ export const AIRLINES: Airline[] = [
 		bookable: "",
 		featured: false,
 		partners: [
-			{ bank: "capitalone", ratio: "1:0.5", time: "Instant" },
-			{ bank: "citi", ratio: "1:0.5", time: "Instant" },
-			{ bank: "bilt", ratio: "1:0.6", time: "Instant" },
-			{ bank: "rove", ratio: "1:0.6", time: "Instant" },
+			{ bank: "capitalone", ratio: "1:0.5", transferTime: "Instant" },
+			{ bank: "citi", ratio: "1:0.5", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:0.6", transferTime: "Instant" },
+			{ bank: "rove", ratio: "1:0.6", transferTime: "Instant" },
 		],
 	},
 	{
@@ -699,8 +701,8 @@ export const AIRLINES: Airline[] = [
 		bookable: "",
 		featured: false,
 		partners: [
-			{ bank: "capitalone", ratio: "1:2", time: "Instant" },
-			{ bank: "citi", ratio: "1:4", time: "Instant" },
+			{ bank: "capitalone", ratio: "1:2", transferTime: "Instant" },
+			{ bank: "citi", ratio: "1:4", transferTime: "Instant" },
 		],
 	},
 ];

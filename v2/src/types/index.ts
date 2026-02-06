@@ -1,13 +1,15 @@
 export interface Partner {
 	bank: string;
 	ratio: string;
-	time: string;
+	transferTime: string;
 	bonusAmount?: number;
+	bonusStarts?: string;
 	bonusEnds?: string;
 }
 
 export interface Airline {
 	name: string;
+	award: string;
 	iata: string;
 	domain: string;
 	alliance: string;

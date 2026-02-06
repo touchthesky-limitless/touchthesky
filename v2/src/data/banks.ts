@@ -1,11 +1,4 @@
-export interface Bank {
-	id: string;
-	name: string;
-	domain: string;
-	bg: string;
-	text: string;
-	logoOverride: string;
-}
+import type { Bank } from "../types";
 
 export const BANKS: Bank[] = [
 	{

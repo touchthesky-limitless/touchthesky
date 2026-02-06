@@ -134,7 +134,7 @@ export default function Header({
 					<div className="animate-in fade-in slide-in-from-top-1 duration-200">
 						<input
 							type="text"
-							placeholder="Search airline, alliance, or IATA..."
+							placeholder="Search airline or IATA..."
 							className="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-blue-500 outline-none shadow-inner transition-all dark:text-white"
 							value={search}
 							onChange={(e) => setSearch(e.target.value)}

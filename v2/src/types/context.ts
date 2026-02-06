@@ -7,6 +7,7 @@ export interface BeforeInstallPromptEvent extends Event {
 
 export interface AirlinesContextType {
 	banks: Bank[];
+	bankColorMap: Record<string, string>;
 	loading: boolean;
 	filteredData: Airline[];
 	search: string;

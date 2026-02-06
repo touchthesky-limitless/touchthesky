@@ -6,13 +6,31 @@ import type {
 } from "../types/context";
 import { AIRLINES } from "../data/partners";
 import { BANKS } from "../data/banks";
-import { AirlinesContext } from "./AirlinesContext"; // Import context here
+import { AirlinesContext } from "./AirlinesContext";
 
 export function AirlinesProvider({ children }: { children: React.ReactNode }) {
 	// 1. Data State
 	const [data] = useState<Airline[]>(AIRLINES);
 	const [banks] = useState<Bank[]>(BANKS);
 	const [loading] = useState(false);
+
+	/* 🟢 1.5 Optimized Bank Color Lookup Map */
+	/* This converts the BANKS array into a key-value object once on mount. */
+
+	const bankColorMap = useMemo(() => {
+		return BANKS.reduce(
+			(acc, bank) => {
+				const hex = bank.bg.match(/\[(.*?)\]/)?.[1] || "#ef4444";
+				// 🟢 Convert #117aca to "17, 122, 202"
+				const r = parseInt(hex.slice(1, 3), 16);
+				const g = parseInt(hex.slice(3, 5), 16);
+				const b = parseInt(hex.slice(5, 7), 16);
+				acc[bank.id] = `${r} ${g} ${b}`;
+				return acc;
+			},
+			{} as Record<string, string>,
+		);
+	}, []);
 
 	// 2. Filter State
 	const [search, setSearch] = useState("");
@@ -90,7 +108,8 @@ export function AirlinesProvider({ children }: { children: React.ReactNode }) {
 					airline.partners.some((p) => activeBanks.includes(p.bank));
 
 				const matchesBonus =
-					!showOnlyBonuses || airline.partners.some((p) => (p.bonusAmount ?? 0) > 0);
+					!showOnlyBonuses ||
+					airline.partners.some((p) => (p.bonusAmount ?? 0) > 0);
 
 				return matchesAlliance && matchesBank && matchesBonus;
 			})
@@ -138,14 +157,16 @@ export function AirlinesProvider({ children }: { children: React.ReactNode }) {
 			filteredCount: filteredData.length,
 			featuredCount: filteredData.filter((a) => a.featured).length,
 			allianceCount: new Set(filteredData.map((a) => a.alliance)).size,
-			bonusCount: data.filter((a) => a.partners.some((p) => (p.bonusAmount ?? 0) > 0))
-				.length,
+			bonusCount: data.filter((a) =>
+				a.partners.some((p) => (p.bonusAmount ?? 0) > 0),
+			).length,
 		};
 	}, [data, filteredData]);
 
 	// 8. Context Value
 	const value: AirlinesContextType = {
 		banks,
+		bankColorMap,
 		loading,
 		filteredData,
 		search,
