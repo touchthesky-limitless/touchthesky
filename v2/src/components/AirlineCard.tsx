@@ -26,7 +26,6 @@ export default function AirlineCard({
 
 	const { airlineLogoUrl, getBankLogo } = useGetAirlineLogos(airline, banks);
 	const { bankColorMap } = useAirlines();
-	console.log(bankColorMap);
 
 	const hasActiveBonus = useMemo(
 		() => airline.partners?.some((p: Partner) => (p.bonusAmount ?? 0) > 0),
@@ -48,14 +47,29 @@ export default function AirlineCard({
             bg-white border-slate-200 hover:border-blue-300
             dark:bg-[#0f172a] dark:border-slate-800 dark:hover:border-slate-700`}
 		>
-			{hasActiveBonus && (
-				<div className="absolute top-4 right-4 z-10">
-					<span className="relative flex h-3 w-3">
-						<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-						<span className="relative inline-flex rounded-full h-3 w-3 bg-red-500 border-2 border-white dark:border-slate-900"></span>
-					</span>
-				</div>
-			)}
+			{airline.partners.map((p: Partner, i: number) => {
+				const rgb = bankColorMap[p.bank] || "239 68 68";
+				const hasBonus = (p.bonusAmount ?? 0) > 0;
+
+				return (
+					<div
+						key={i}
+						className="cursor-pointer group flex flex-col items-end gap-1"
+					>
+						{hasBonus && (
+							<div
+								style={{
+									backgroundColor: `rgba(${rgb}, 0.1)`,
+									color: `rgb(${rgb})`,
+								}}
+								className="text-[10px] px-1.5 py-0.5 rounded-md font-bold border border-current"
+							>
+								BONUS
+							</div>
+						)}
+					</div>
+				);
+			})}
 
 			{/* Header Section */}
 			<div className="flex items-center gap-4 w-full">
@@ -129,6 +143,12 @@ export default function AirlineCard({
 				{airline.partners?.map((p: any, i: number) => {
 					const partnerHasBonus = (p.bonusAmount ?? 0) > 0;
 					const rgb = bankColorMap[p.bank] || "bg-slate-500";
+					const tintedBackground = `
+						bg-[rgb(var(--bank-rgb)/0.1)] 
+						border-[rgb(var(--bank-rgb)/0.2)] 
+						dark:bg-[rgb(var(--bank-rgb)/0.15)] 
+						dark:border-[rgb(var(--bank-rgb)/0.4)]
+					`;
 
 					return (
 						<div key={i} className="flex flex-col gap-2">
@@ -150,9 +170,17 @@ export default function AirlineCard({
 										className="w-full h-full object-contain"
 										alt=""
 									/>
+									{/* Red dot top right bank logo */}
 									{partnerHasBonus && (
 										<span className="absolute -top-1 -right-1 flex h-2 w-2">
-											<span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+											<span
+												style={{ "--bank-rgb": rgb } as any}
+												className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[rgb(var(--bank-rgb)/0.9)] opacity-75"
+											></span>
+											<span
+												style={{ "--bank-rgb": rgb } as any}
+												className="relative inline-flex rounded-full h-2 w-2 bg-[rgb(var(--bank-rgb)/0.9)]"
+											></span>
 										</span>
 									)}
 								</div>
@@ -176,15 +204,24 @@ export default function AirlineCard({
 
 							{/* Calculator UI */}
 							{calcPartner === p.bank && (
-								<div className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl animate-in fade-in zoom-in-95 duration-200">
+								// <div className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl animate-in fade-in zoom-in-95 duration-200">
+								<div
+									style={{ "--bank-rgb": rgb } as any}
+									className={`p-3 ${tintedBackground} rounded-xl animate-in fade-in zoom-in-95 duration-200`}
+								>
 									<div className="flex flex-col gap-2 min-w-[160px]">
-										<div className="flex bg-blue-100 dark:bg-slate-800 p-0.5 rounded-lg mb-1">
+										{/* <div className="flex bg-blue-100 dark:bg-slate-800 p-0.5 rounded-lg mb-1"> */}
+										<div
+											className={`flex ${tintedBackground} dark:bg-slate-800 p-0.5 rounded-lg mb-1`}
+										>
 											<button
 												onClick={(e) => {
 													e.stopPropagation();
 													setCalcMode("have");
 												}}
-												className={`flex-1 text-[8px] uppercase font-black py-1 px-2 rounded-md transition-all cursor-pointer ${calcMode === "have" ? "bg-white dark:bg-blue-600 shadow-sm text-blue-600 dark:text-white" : "text-slate-500"}`}
+												style={{ "--bank-rgb": rgb } as any}
+												// className={`flex-1 text-[8px] uppercase font-black py-1 px-2 rounded-md transition-all cursor-pointer ${calcMode === "have" ? "bg-white dark:bg-blue-600 shadow-sm text-blue-600 dark:text-white" : "text-slate-500"}`}
+												className={`flex-1 text-[8px] uppercase font-black py-1 px-2 rounded-md transition-all cursor-pointer ${calcMode === "have" ? tintedBackground : "text-slate-500"}`}
 											>
 												I Have
 											</button>
@@ -193,7 +230,9 @@ export default function AirlineCard({
 													e.stopPropagation();
 													setCalcMode("need");
 												}}
-												className={`flex-1 text-[8px] uppercase font-black py-1 px-2 rounded-md transition-all cursor-pointer ${calcMode === "need" ? "bg-white dark:bg-blue-600 shadow-sm text-blue-600 dark:text-white" : "text-slate-500"}`}
+												style={{ "--bank-rgb": rgb } as any}
+												// className={`flex-1 text-[8px] uppercase font-black py-1 px-2 rounded-md transition-all cursor-pointer ${calcMode === "need" ? "bg-white dark:bg-blue-600 shadow-sm text-blue-600 dark:text-white" : "text-slate-500"}`}
+												className={`flex-1 text-[8px] uppercase font-black py-1 px-2 rounded-md transition-all cursor-pointer ${calcMode === "need" ? tintedBackground : "text-slate-500"}`}
 											>
 												I Need
 											</button>
