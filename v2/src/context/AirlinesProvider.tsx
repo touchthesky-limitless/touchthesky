@@ -37,6 +37,7 @@ export function AirlinesProvider({ children }: { children: React.ReactNode }) {
 	const [activeBanks, setActiveBanks] = useState<string[]>([]);
 	const [activeAlliances, setActiveAlliances] = useState<string[]>([]);
 	const [showOnlyBonuses, setShowOnlyBonuses] = useState(false);
+	const [showOnlyFeatured, setShowOnlyFeatured] = useState<boolean>(false);
 
 	// 3. Theme Logic
 	const [isDark, setIsDark] = useState(() => {
@@ -111,14 +112,34 @@ export function AirlinesProvider({ children }: { children: React.ReactNode }) {
 					!showOnlyBonuses ||
 					airline.partners.some((p) => (p.bonusAmount ?? 0) > 0);
 
-				return matchesAlliance && matchesBank && matchesBonus;
+				// 🟢 Add check for the Featured toggle
+				const matchesFeatured = 
+					!showOnlyFeatured || airline.featured;
+
+				return matchesAlliance && matchesBank && matchesBonus && matchesFeatured;
 			})
 			.sort((a, b) => {
-				if (a.featured && !b.featured) return -1;
-				if (!a.featured && b.featured) return 1;
+				// 🟢 1. Priority: Bonus (Green Cards)
+				const aHasBonus = a.partners.some((p) => (p.bonusAmount ?? 0) > 0);
+				const bHasBonus = b.partners.some((p) => (p.bonusAmount ?? 0) > 0);
+				
+				if (aHasBonus && !bHasBonus) return -1;
+				if (!aHasBonus && bHasBonus) return 1;
+
+				// 🟢 2. Priority: Featured (Blue Cards)
+				// if (a.featured && !b.featured) return -1;
+				// if (!a.featured && b.featured) return 1;
+
+				// 🟢 3. Priority: Only Bonus cards (Green) stay on top
+				if (aHasBonus && !bHasBonus) return -1;
+				if (!aHasBonus && bHasBonus) return 1;
+
+				// 🟢 4. Priority: Alphabetical
 				return a.name.localeCompare(b.name);
 			});
-	}, [data, search, activeBanks, activeAlliances, showOnlyBonuses]);
+			
+		// 🟢 Added showOnlyFeatured to dependencies
+	}, [data, search, activeBanks, activeAlliances, showOnlyBonuses, showOnlyFeatured]);
 
 	// 6. Global Helper Actions
 	const toggleBank = (bankId: string) => {
@@ -155,9 +176,14 @@ export function AirlinesProvider({ children }: { children: React.ReactNode }) {
 		return {
 			totalAirlines: data.length,
 			filteredCount: filteredData.length,
+			// 🟢 Featured airlines within the current search/filter
 			featuredCount: filteredData.filter((a) => a.featured).length,
+
 			allianceCount: new Set(filteredData.map((a) => a.alliance)).size,
-			bonusCount: data.filter((a) =>
+
+			// 🟢 Update this to filteredData so the "Bonuses" count
+			// matches what the user actually sees on screen
+			bonusCount: filteredData.filter((a) =>
 				a.partners.some((p) => (p.bonusAmount ?? 0) > 0),
 			).length,
 		};
@@ -177,6 +203,8 @@ export function AirlinesProvider({ children }: { children: React.ReactNode }) {
 		setActiveAlliances,
 		showOnlyBonuses,
 		setShowOnlyBonuses,
+		showOnlyFeatured,
+		setShowOnlyFeatured,
 		isDark,
 		setIsDark,
 		installPrompt,

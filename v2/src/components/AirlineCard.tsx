@@ -32,9 +32,12 @@ export default function AirlineCard({
 		[airline],
 	);
 
-	const featuredStyles = airline.featured
-		? "ring-2 ring-blue-500 shadow-lg shadow-blue-500/10"
-		: "shadow-sm";
+	// 🟢 2. Determine Style Priority: Bonus wins over Featured
+	const cardHighlightStyles = hasActiveBonus
+    ? "ring-2 ring-emerald-500 shadow-lg shadow-emerald-500/10" // Bonus Green
+    : airline.featured
+        ? "ring-2 ring-blue-500 shadow-lg shadow-blue-500/10"   // Featured Blue
+        : "shadow-sm"; // Standard
 
 	return (
 		<div
@@ -43,11 +46,11 @@ export default function AirlineCard({
 					? "flex flex-col h-full p-6 rounded-[2rem]"
 					: /* Mobile: stack vertically | Desktop: row if not gridView */
 						"flex flex-col md:flex-row md:items-center justify-between p-5 md:p-4 rounded-2xl mb-3"
-			} ${featuredStyles} 
+			} ${cardHighlightStyles} 
             bg-white border-slate-200 hover:border-blue-300
             dark:bg-[#0f172a] dark:border-slate-800 dark:hover:border-slate-700`}
 		>
-			{airline.partners.map((p: Partner, i: number) => {
+			{/* {airline.partners.map((p: Partner, i: number) => {
 				const rgb = bankColorMap[p.bank] || "239 68 68";
 				const hasBonus = (p.bonusAmount ?? 0) > 0;
 
@@ -69,7 +72,7 @@ export default function AirlineCard({
 						)}
 					</div>
 				);
-			})}
+			})} */}
 
 			{/* Header Section */}
 			<div className="flex items-center gap-4 w-full">

@@ -18,6 +18,8 @@ export interface AirlinesContextType {
 	setActiveAlliances: (alliances: string[]) => void;
 	showOnlyBonuses: boolean;
 	setShowOnlyBonuses: (val: boolean) => void;
+	showOnlyFeatured: boolean;
+	setShowOnlyFeatured: (val: boolean) => void;
 	isDark: boolean;
 	setIsDark: (val: boolean | ((prev: boolean) => boolean)) => void;
 	installPrompt: BeforeInstallPromptEvent | null;
