@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useAirlines } from "../hooks/useAirlines";
+import SweetSpot from "./SweetSpot";
 
 interface DashboardProps {
 	onClose: () => void;
@@ -99,6 +100,9 @@ export default function Dashboard({ onClose }: DashboardProps) {
 						</p>
 					</div>
 				</div>
+
+				{/* 🟢 NEW: Sweet Spot Section */}
+				<SweetSpot />
 
 				{/* Banking Ecosystem Section */}
 				<div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm">
