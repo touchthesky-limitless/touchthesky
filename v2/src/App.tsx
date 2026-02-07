@@ -16,7 +16,6 @@ import CPPCalculator from "./components/CPPCalculator";
 import ValuationService from "./components/ValuationService";
 import Dashboard from "./components/Dashboard";
 import StatsBar from "./components/StatsBar";
-import { motion, AnimatePresence } from "motion/react";
 
 export default function App() {
 	const isHeaderVisible = useHeaderVisible();
