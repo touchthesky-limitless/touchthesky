@@ -54,18 +54,6 @@ export default function IntelligenceButton({
           className="absolute inset-0 w-1/2 skew-x-12 pointer-events-none bg-gradient-to-r from-transparent via-white/10 to-transparent"
         />
 
-        {/* Status Indicator */}
-        <span className="relative flex h-2 w-2">
-          <span 
-            className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
-            style={{ backgroundColor: ringColor }}
-          ></span>
-          <span 
-            className="relative inline-flex rounded-full h-2 w-2"
-            style={{ backgroundColor: ringColor }}
-          ></span>
-        </span>
-
         <span className="relative z-10 text-[10px] font-black uppercase tracking-[0.1em] group-hover:text-blue-600 dark:group-hover:text-white transition-colors">
           <span className="inline sm:hidden">{mobileLabel}</span>
           <span className="hidden sm:inline">{label}</span>

@@ -153,23 +153,10 @@ export default function App() {
 										<EmptyState onClear={() => handleGlobalReset(true)} />
 									)}
 									{/* 🟢 4. The Dashboard Drawer (Overlay) */}
-									<AnimatePresence>
-										{isDashboardOpen && (
-											<>
-												{/* 📍 Clean Backdrop: Only handles the dimming effect */}
-												<motion.div
-													initial={{ opacity: 0 }}
-													animate={{ opacity: 1 }}
-													exit={{ opacity: 0 }}
-													onClick={() => setIsDashboardOpen(false)}
-													className="fixed inset-0 z-[90] bg-black/40 backdrop-blur-[2px] cursor-pointer"
-												/>
-
-												{/* 📍 The Dashboard: It handles its own fixed positioning and animation */}
-												<Dashboard onClose={() => setIsDashboardOpen(false)} />
-											</>
-										)}
-									</AnimatePresence>
+									<Dashboard
+										isOpen={isDashboardOpen}
+										onClose={() => setIsDashboardOpen(false)}
+									/>
 								</div>
 							</div>
 						)}
