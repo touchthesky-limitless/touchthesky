@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useDragControls } from "framer-motion";
 import { useAirlines } from "../hooks/useAirlines";
 import { Globe, Zap, Activity } from "lucide-react";
 import SweetSpot from "./SweetSpot";
@@ -32,6 +32,8 @@ export default function Dashboard({ onClose }: DashboardProps) {
 	// 2. Calculate dynamic yield based on the slider
 	const dynamicYield = points > 100000 ? 0.052 : 0.024;
 
+	const dragControls = useDragControls();
+
 	return (
 		<motion.div
 			initial={{ y: "100%" }}
@@ -47,13 +49,18 @@ export default function Dashboard({ onClose }: DashboardProps) {
 			drag="y"
 			dragConstraints={{ top: 0, bottom: 0 }}
 			dragElastic={0.6}
+			dragListener={false}
+			dragControls={dragControls}
 			onDragEnd={(_, info) => {
 				if (info.offset.y > 100) onClose();
 			}}
-			className="fixed bottom-0 left-0 right-0 z-[100] bg-white dark:bg-slate-950 rounded-t-[3rem] shadow-2xl max-h-[85vh] overflow-y-auto no-scrollbar border-t border-slate-100 dark:border-white/10"
+			className="fixed bottom-0 left-0 right-0 z-100 bg-white dark:bg-slate-950 rounded-t-[3rem] shadow-2xl h-[85vh] overflow-y-auto touch-pan-y no-scrollbar border-t border-slate-100 dark:border-white/10"
 		>
 			{/* Sticky iOS-style Handle */}
-			<div className="sticky top-0 bg-inherit pt-5 pb-2 z-30">
+			<div
+				onPointerDown={(e) => dragControls.start(e)}
+				className="sticky top-0 bg-inherit pt-5 pb-2 z-30"
+			>
 				<div className="w-12 h-1.5 bg-slate-300 dark:bg-slate-800 rounded-full mx-auto" />
 			</div>
 

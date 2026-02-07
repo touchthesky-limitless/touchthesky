@@ -1,4 +1,5 @@
 import { useAirlines } from "../hooks/useAirlines";
+import IntelligenceButton from "./IntelligenceButton";
 
 export default function StatsBar({
 	onOpenDashboard,
@@ -93,18 +94,12 @@ export default function StatsBar({
 				</button>
 			</div>
 
-			<button
+			<IntelligenceButton
 				onClick={onOpenDashboard}
-				className="cursor-pointer bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-xl text-[10px] font-black text-slate-500 hover:bg-blue-600 hover:text-white transition-all active:scale-95 shrink-0 flex items-center gap-1"
-			>
-				{/* 🟢 Hides the text on mobile, shows it on small screens and up */}
-				<span className="hidden sm:inline whitespace-nowrap">
-					View Insights
-				</span>
-
-				{/* 🟢 The arrow stays visible on all screens */}
-				<span className="text-xs">→</span>
-			</button>
+				label="Network Intelligence"
+				icon={"→"}
+				variant="solid"
+			/>
 		</div>
 	);
 }
