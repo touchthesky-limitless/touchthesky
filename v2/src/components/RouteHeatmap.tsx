@@ -3,13 +3,19 @@ import { motion } from "framer-motion";
 import { AIRLINES } from "../data/partners";
 import type { Airline } from "../types";
 
-export default function RouteHeatmap() {
+interface RouteHeatmapProps {
+    activeNodes?: Airline[];
+}
+
+export default function RouteHeatmap({ activeNodes = [] }: RouteHeatmapProps) {
 	const [activeRegion, setActiveRegion] = useState<string | null>(null);
 	const [isDark, setIsDark] = useState(() =>
 		typeof window !== "undefined"
 			? window.matchMedia("(prefers-color-scheme: dark)").matches
 			: true,
 	);
+
+    const totalActive = activeNodes.length >= 1000 ? "1,000" : activeNodes.length;
 
 	// 🌗 Auto-System Theme Listener
 	useEffect(() => {
@@ -108,7 +114,7 @@ export default function RouteHeatmap() {
 					className={`${isDark ? "bg-white/5 border-white/10" : "bg-white border-slate-200"} backdrop-blur-xl border px-5 py-2.5 rounded-2xl shadow-sm`}
 				>
 					<p className="text-[9px] font-bold text-slate-500 uppercase leading-none">
-						Total Nodes
+						{totalActive} Total Nodes
 					</p>
 					<p
 						className={`text-xl font-black ${isDark ? "text-white" : "text-slate-900"} mt-1`}
