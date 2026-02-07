@@ -636,7 +636,7 @@ export const AIRLINES: Airline[] = [
 	{
 		name: "World Of Hyatt",
 		award: "Points",
-		iata: "",
+		iata: "H",
 		domain: "hyatt.com",
 		alliance: "Hotels",
 		region: "WORLDWIDE",
@@ -650,7 +650,7 @@ export const AIRLINES: Airline[] = [
 	{
 		name: "IHG Hotels & Resorts",
 		award: "One Rewards",
-		iata: "",
+		iata: "IHG",
 		domain: "ihg.com",
 		alliance: "Hotels",
 		region: "WORLDWIDE",
@@ -664,7 +664,7 @@ export const AIRLINES: Airline[] = [
 	{
 		name: "Marriott",
 		award: "Bonvoy",
-		iata: "",
+		iata: "MAR",
 		domain: "marriott.com",
 		alliance: "Hotels",
 		region: "WORLDWIDE",
@@ -685,7 +685,7 @@ export const AIRLINES: Airline[] = [
 	{
 		name: "Hilton",
 		award: "Honors",
-		iata: "",
+		iata: "HLT",
 		domain: "hilton.com",
 		alliance: "Hotels",
 		region: "WORLDWIDE",
@@ -699,7 +699,7 @@ export const AIRLINES: Airline[] = [
 	{
 		name: "Choice Hotels",
 		award: "Privilege",
-		iata: "",
+		iata: "CHH",
 		domain: "choicehotels.com",
 		alliance: "Hotels",
 		region: "WORLDWIDE",
@@ -715,7 +715,7 @@ export const AIRLINES: Airline[] = [
 	{
 		name: "Wyndham Hotels & Resorts",
 		award: "Rewards",
-		iata: "",
+		iata: "WH",
 		domain: "wyndhamhotels.com",
 		alliance: "Hotels",
 		region: "WORLDWIDE",
@@ -729,7 +729,7 @@ export const AIRLINES: Airline[] = [
 	{
 		name: "ALL - Accor Live Limitless",
 		award: "Points",
-		iata: "",
+		iata: "ACPC",
 		domain: "all.accor.com",
 		alliance: "Hotels",
 		region: "WORLDWIDE",
@@ -745,7 +745,7 @@ export const AIRLINES: Airline[] = [
 	{
 		name: "I Prefer Hotel Rewards",
 		award: "Points",
-		iata: "",
+		iata: "IPHR",
 		domain: "iprefer.com",
 		alliance: "Hotels",
 		region: "WORLDWIDE",
