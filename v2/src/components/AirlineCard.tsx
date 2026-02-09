@@ -34,10 +34,10 @@ export default function AirlineCard({
 
 	// 🟢 2. Determine Style Priority: Bonus wins over Featured
 	const cardHighlightStyles = hasActiveBonus
-    ? "ring-2 ring-emerald-500 shadow-lg shadow-emerald-500/10" // Bonus Green
-    : airline.featured
-        ? "ring-2 ring-blue-500 shadow-lg shadow-blue-500/10"   // Featured Blue
-        : "shadow-sm"; // Standard
+		? "ring-2 ring-emerald-500 shadow-lg shadow-emerald-500/10" // Bonus Green
+		: airline.featured
+			? "ring-2 ring-blue-500 shadow-lg shadow-blue-500/10" // Featured Blue
+			: "shadow-sm"; // Standard
 
 	return (
 		<div
@@ -240,12 +240,22 @@ export default function AirlineCard({
 												I Need
 											</button>
 										</div>
-
-										<label className="text-[9px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">
-											{calcMode === "have"
-												? "Bank Points"
-												: `${airline.award} Goal`}
-										</label>
+										<div className="flex items-center justify-between">
+											<label className="text-[9px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">
+												{calcMode === "have"
+													? "Bank Points"
+													: `${airline.award} Goal`}
+											</label>
+											{/* 🟢 Bonus Countdown next to the label */}
+											{p.bonusEnds && (
+												<div className="flex items-center gap-1 px-1.5 py-0.5 bg-emerald-100 dark:bg-emerald-500/20 rounded-md border border-emerald-200 dark:border-emerald-500/30 animate-pulse">
+													<span className="text-[7px] font-mono font-bold text-red-500">⏳End:</span>
+													<span className="text-[8px] font-mono font-bold text-emerald-700 dark:text-emerald-300">
+														{p.bonusEnds}
+													</span>
+												</div>
+											)}
+										</div>
 
 										<input
 											type="text"
