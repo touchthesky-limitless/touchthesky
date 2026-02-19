@@ -32,7 +32,7 @@ export default function AirlineCard({
 
     return (
         <div className={`group relative overflow-hidden transition-all border ${
-            isGridView ? "p-6 rounded-[2rem]" : "p-4 rounded-2xl mb-3"
+            isGridView ? "p-6 rounded-4xl" : "p-4 rounded-2xl mb-3"
         } bg-white dark:bg-[#0f172a] border-slate-200 dark:border-slate-800 hover:border-blue-300 shadow-sm`}>
             
             {/* Header Section */}

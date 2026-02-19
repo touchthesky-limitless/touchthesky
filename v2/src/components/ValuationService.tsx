@@ -54,7 +54,7 @@ export default function ValuationService() {
 
 			{/* DRAWER COMPONENT: Self-contained logic */}
 			{isOpen && (
-				<div className="fixed inset-0 z-[100] flex justify-end">
+				<div className="fixed inset-0 z-100 flex justify-end">
 					{/* Backdrop blur */}
 					<div
 						className="absolute inset-0 bg-slate-950/40 backdrop-blur-sm transition-opacity"
