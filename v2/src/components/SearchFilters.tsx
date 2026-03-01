@@ -43,7 +43,7 @@ export default function SearchFilters() {
 			{/* 🟢 Alliance Pills: Added flex-nowrap and overflow-x-auto for mobile */}
 			{/* <div className="flex sm:flex-wrap flex-nowrap gap-1.5 sm:justify-center overflow-x-auto no-scrollbar -mx-5 px-5 pb-2"> */}
 			<div className="flex flex-nowrap gap-2 overflow-x-auto no-scrollbar -mx-5 px-5 pb-2 scroll-smooth">
-            	{ALLIANCE_NAMES.map((name) => {
+				{ALLIANCE_NAMES.map((name) => {
 					const isActive = activeAlliances.includes(name);
 
 					const emojiMap: Record<string, string> = {
