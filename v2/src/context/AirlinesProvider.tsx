@@ -13,6 +13,15 @@ export function AirlinesProvider({ children }: { children: React.ReactNode }) {
 	const [data] = useState<Airline[]>(AIRLINES);
 	const [banks] = useState<Bank[]>(BANKS);
 	const [loading] = useState(false);
+	const [currentTime, setCurrentTime] = useState(() => Date.now());
+
+	/* 🟢 Update the time once a minute to keep expirations accurate */
+	useEffect(() => {
+		const timer = setInterval(() => {
+			setCurrentTime(Date.now());
+		}, 60000); // Update every 60 seconds
+		return () => clearInterval(timer);
+	}, []);
 
 	/* 🟢 1.5 Optimized Bank Color Lookup Map */
 	/* This converts the BANKS array into a key-value object once on mount. */
@@ -82,8 +91,22 @@ export function AirlinesProvider({ children }: { children: React.ReactNode }) {
 	const filteredData = useMemo(() => {
 		const searchTerm = search.toLowerCase().trim();
 
+		// Helper to check if a partner has a valid, non-expired bonus
+		const hasValidBonus = (airline: Airline) => {
+			return airline.partners.some((p) => {
+				if (!p.bonusAmount || p.bonusAmount <= 0) return false;
+				if (!p.bonusEnds) return true; // No end date = permanent bonus
+
+				// Normalize date for Safari and set to end of day
+				const expiry = new Date(p.bonusEnds.replace(/-/g, "/"));
+				expiry.setHours(23, 59, 59, 999);
+				return expiry.getTime() > currentTime;
+			});
+		};
+
 		return data
 			.filter((airline) => {
+				// Search Logic
 				const matchesSearch =
 					searchTerm === "" ||
 					airline.name?.toLowerCase().includes(searchTerm) ||
@@ -92,6 +115,7 @@ export function AirlinesProvider({ children }: { children: React.ReactNode }) {
 
 				if (!matchesSearch) return false;
 
+				// Alliance Logic
 				const category = [
 					"Star Alliance",
 					"SkyTeam",
@@ -104,42 +128,40 @@ export function AirlinesProvider({ children }: { children: React.ReactNode }) {
 				const matchesAlliance =
 					activeAlliances.length === 0 || activeAlliances.includes(category);
 
+				// Bank Logic
 				const matchesBank =
 					activeBanks.length === 0 ||
 					airline.partners.some((p) => activeBanks.includes(p.bank));
 
-				const matchesBonus =
-					!showOnlyBonuses ||
-					airline.partners.some((p) => (p.bonusAmount ?? 0) > 0);
+				// 🟢 FIXED: matchesBonus now checks both amount AND expiration
+				const matchesBonus = !showOnlyBonuses || hasValidBonus(airline);
 
-				// 🟢 Add check for the Featured toggle
-				const matchesFeatured = 
-					!showOnlyFeatured || airline.featured;
+				const matchesFeatured = !showOnlyFeatured || airline.featured;
 
-				return matchesAlliance && matchesBank && matchesBonus && matchesFeatured;
+				return (
+					matchesAlliance && matchesBank && matchesBonus && matchesFeatured
+				);
 			})
 			.sort((a, b) => {
-				// 🟢 1. Priority: Bonus (Green Cards)
-				const aHasBonus = a.partners.some((p) => (p.bonusAmount ?? 0) > 0);
-				const bHasBonus = b.partners.some((p) => (p.bonusAmount ?? 0) > 0);
-				
+				// 🟢 FIXED: Sorting now respects expiration too
+				const aHasBonus = hasValidBonus(a);
+				const bHasBonus = hasValidBonus(b);
+
 				if (aHasBonus && !bHasBonus) return -1;
 				if (!aHasBonus && bHasBonus) return 1;
 
-				// 🟢 2. Priority: Featured (Blue Cards)
-				// if (a.featured && !b.featured) return -1;
-				// if (!a.featured && b.featured) return 1;
-
-				// 🟢 3. Priority: Only Bonus cards (Green) stay on top
-				if (aHasBonus && !bHasBonus) return -1;
-				if (!aHasBonus && bHasBonus) return 1;
-
-				// 🟢 4. Priority: Alphabetical
+				// Alphabetical fallback
 				return a.name.localeCompare(b.name);
 			});
-			
-		// 🟢 Added showOnlyFeatured to dependencies
-	}, [data, search, activeBanks, activeAlliances, showOnlyBonuses, showOnlyFeatured]);
+	}, [
+		data,
+		search,
+		activeBanks,
+		activeAlliances,
+		showOnlyBonuses,
+		showOnlyFeatured,
+		currentTime,
+	]);
 
 	// 6. Global Helper Actions
 	const toggleBank = (bankId: string) => {
@@ -173,21 +195,26 @@ export function AirlinesProvider({ children }: { children: React.ReactNode }) {
 
 	// 7. Analytics for StatsBar
 	const analytics = useMemo(() => {
+		// Helper used here too for consistency
+		const isBonusLive = (airline: Airline) =>
+			airline.partners.some((p) => {
+				if (!p.bonusAmount) return false;
+				if (!p.bonusEnds) return true;
+				const expiry = new Date(p.bonusEnds.replace(/-/g, "/"));
+				expiry.setHours(23, 59, 59, 999);
+				return expiry.getTime() > currentTime;
+			});
+
 		return {
 			totalAirlines: data.length,
 			filteredCount: filteredData.length,
-			// 🟢 Featured airlines within the current search/filter
 			featuredCount: filteredData.filter((a) => a.featured).length,
-
 			allianceCount: new Set(filteredData.map((a) => a.alliance)).size,
 
-			// 🟢 Update this to filteredData so the "Bonuses" count
-			// matches what the user actually sees on screen
-			bonusCount: filteredData.filter((a) =>
-				a.partners.some((p) => (p.bonusAmount ?? 0) > 0),
-			).length,
+			// 🟢 FIXED: Bonus count now matches the filtered visual state
+			bonusCount: filteredData.filter((a) => isBonusLive(a)).length,
 		};
-	}, [data, filteredData]);
+	}, [data, filteredData, currentTime]);
 
 	// 8. Context Value
 	const value: AirlinesContextType = {
