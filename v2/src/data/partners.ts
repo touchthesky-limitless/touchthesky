@@ -638,6 +638,25 @@ export const AIRLINES: Airline[] = [
 		partners: [{ bank: "marriott", ratio: "3:1", transferTime: "Instant" }],
 	},
 	{
+		name: "Scandinavian Airlines",
+		award: "SkyPass",
+		iata: "SAS",
+		domain: "flysas.com",
+		alliance: "SkyTeam",
+		region: "EU",
+		bookable: "AS, HA, EK, EY",
+		featured: false,
+		partners: [
+			{
+				bank: "rove",
+				ratio: "1:1",
+				transferTime: "Instant",
+				bonusAmount: 20,
+				bonusEnds: "2026-04-08",
+			},
+		],
+	},
+	{
 		name: "AeroMexico",
 		award: "Rewards",
 		iata: "AM",
