@@ -799,6 +799,7 @@ export const AIRLINES: Airline[] = [
 		featured: false,
 		partners: [
 			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
 			{
 				bank: "citi",
 				ratio: "1:2",
