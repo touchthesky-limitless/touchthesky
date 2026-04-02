@@ -12,7 +12,13 @@ export const AIRLINES: Airline[] = [
 		featured: false,
 		partners: [
 			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
-			{ bank: "chase", ratio: "1:1", transferTime: "Instant" },
+			{
+				bank: "chase",
+				ratio: "1:1",
+				transferTime: "Instant",
+				bonusAmount: 20,
+				bonusEnds: "2026-04-30",
+			},
 			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
 			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
 			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
