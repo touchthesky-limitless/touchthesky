@@ -181,6 +181,7 @@ export const AIRLINES: Airline[] = [
 			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
 			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 			{ bank: "rove", ratio: "1:1", transferTime: "Instant" },
+			{ bank: "wellsfargo", ratio: "1:1", transferTime: "Instant" },
 		],
 	},
 	{
