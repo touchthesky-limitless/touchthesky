@@ -782,7 +782,13 @@ export const AIRLINES: Airline[] = [
 		bookable: "",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:2", transferTime: "Instant" },
+			{
+				bank: "amex",
+				ratio: "1:2",
+				transferTime: "Instant",
+				bonusAmount: 20,
+				bonusEnds: "2026-05-30",
+			},
 			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
 		],
 	},
