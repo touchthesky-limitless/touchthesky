@@ -41,7 +41,13 @@ export const AIRLINES: Airline[] = [
 		bookable: "AZ, CM, EY, G3, JL, WS, VS",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
+			{
+				bank: "amex",
+				ratio: "1:1",
+				transferTime: "Instant",
+				bonusAmount: 25,
+				bonusEnds: "2026-06-30",
+			},
 			{
 				bank: "chase",
 				ratio: "1:1",
