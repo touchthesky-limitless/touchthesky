@@ -745,7 +745,13 @@ export const AIRLINES: Airline[] = [
 		bookable: "AZ, HA, LA, LY, NH, NZ, SA, SQ, SK, VA",
 		featured: false,
 		partners: [
-			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
+			{
+				bank: "amex",
+				ratio: "1:1",
+				transferTime: "Instant",
+				bonusAmount: 30,
+				bonusEnds: "2026-07-31",
+			},
 			{
 				bank: "chase",
 				ratio: "1:1",
