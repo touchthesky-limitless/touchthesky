@@ -260,7 +260,16 @@ export const AIRLINES: Airline[] = [
 		region: "NA",
 		bookable: "",
 		featured: false,
-		partners: [{ bank: "marriott", ratio: "3:1", transferTime: "Instant" }],
+		partners: [
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
+			{
+				bank: "rove",
+				ratio: "1:1",
+				transferTime: "Instant",
+				bonusAmount: 25,
+				bonusEnds: "2026-07-31",
+			},
+		],
 	},
 	{
 		name: "China Southern",
