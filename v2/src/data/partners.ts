@@ -597,7 +597,13 @@ export const AIRLINES: Airline[] = [
 		featured: false,
 		partners: [
 			{ bank: "citi", ratio: "1:1", transferTime: "Instant" },
-			{ bank: "capitalone", ratio: "1:0.75", transferTime: "Instant" },
+			{
+				bank: "capitalone",
+				ratio: "1:0.75",
+				transferTime: "Instant",
+				bonusAmount: 30,
+				bonusEnds: "2026-07-31",
+			},
 		],
 	},
 	{
@@ -850,7 +856,13 @@ export const AIRLINES: Airline[] = [
 				bonusAmount: 20,
 				bonusEnds: "2026-07-14",
 			},
-			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
+			{
+				bank: "bilt",
+				ratio: "1:1",
+				transferTime: "Instant",
+				bonusAmount: 20,
+				bonusEnds: "2026-07-01",
+			},
 		],
 	},
 	{
