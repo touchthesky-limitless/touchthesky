@@ -42,6 +42,14 @@ export const BANKS: Bank[] = [
 		logoOverride: "",
 	},
 	{
+		id: "usbank",
+		name: "U.S. Bank",
+		domain: "usbank.com",
+		bg: "bg-[#4542f5]",
+		text: "text-white",
+		logoOverride: "",
+	},
+	{
 		id: "bilt",
 		name: "Bilt",
 		domain: "biltrewards.com",
