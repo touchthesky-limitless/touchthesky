@@ -244,7 +244,7 @@ export const AIRLINES: Airline[] = [
 				ratio: "1:1",
 				transferTime: "24 hrs",
 				bonusAmount: 10,
-				bonusEnds: "2026-08-28",
+				bonusEnds: "2026-11-14",
 			},
 			{
 				bank: "capitalone",
@@ -703,7 +703,10 @@ export const AIRLINES: Airline[] = [
 		region: "SA",
 		bookable: "",
 		featured: false,
-		partners: [{ bank: "marriott", ratio: "3:1", transferTime: "Instant" }],
+		partners: [
+			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
+			{ bank: "citi", ratio: "1:1", transferTime: "Instant" },
+		],
 	},
 	{
 		name: "EVA Air",
@@ -964,8 +967,8 @@ export const AIRLINES: Airline[] = [
 				bank: "amex",
 				ratio: "1:1",
 				transferTime: "Instant",
-				bonusAmount: 20,
-				bonusEnds: "2026-06-30",
+				bonusAmount: 35,
+				bonusEnds: "2026-12-10",
 			},
 			{ bank: "bilt", ratio: "1:1", transferTime: "Instant" },
 		],
