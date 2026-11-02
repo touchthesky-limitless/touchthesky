@@ -890,7 +890,7 @@ export const AIRLINES: Airline[] = [
 				ratio: "1:1",
 				transferTime: "Instant",
 				bonusAmount: 30,
-				bonusEnds: "2026-07-31",
+				bonusEnds: "2026-11-30",
 			},
 			{
 				bank: "chase",
