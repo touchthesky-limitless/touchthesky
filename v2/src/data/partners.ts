@@ -503,7 +503,13 @@ export const AIRLINES: Airline[] = [
 				bonusEnds: "2026-10-31",
 			},
 			{ bank: "amex", ratio: "1:1", transferTime: "Instant" },
-			{ bank: "capitalone", ratio: "1:1", transferTime: "Instant" },
+			{
+				bank: "capitalone",
+				ratio: "1:1",
+				transferTime: "Instant",
+				bonusAmount: 15,
+				bonusEnds: "2026-12-14",
+			},
 			{ bank: "avios", ratio: "1:1", transferTime: "Instant" },
 			{ bank: "marriott", ratio: "3:1", transferTime: "Instant" },
 			{
